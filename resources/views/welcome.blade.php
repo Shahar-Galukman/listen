@@ -38,7 +38,8 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">Laravel 5</div>
+                <div class="title">Music Share</div>
+                <h3>By Shahar and Yuval</p>
             </div>
         </div>
     </body>
