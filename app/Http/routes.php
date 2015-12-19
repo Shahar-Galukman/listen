@@ -15,4 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/listen', 'SongsController@index');
+
 Route::post('/songs', 'SongsController@store');

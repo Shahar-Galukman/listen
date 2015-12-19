@@ -2,8 +2,9 @@
 
 // Global data/settings object
 var data = {
-	videoId: '3YR8DCRgmvQ',
-	currentTime: 0
+	videoId: '',
+	currentTime: 0,
+	userType: 'listener' // Default 
 }
 
 function init(){
@@ -20,6 +21,11 @@ function init(){
 	tag.src = "https://www.youtube.com/iframe_api";
 	var firstScriptTag = document.getElementsByTagName('script')[0];
 	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+	// Set user type (until implemented within ACL)
+	data.userType 	 = ($('body').hasClass('listener')) ? 'listener' : 'broadcaster';
+	data.videoId 	 = $('body').data('songid') ? $('body').data('songid') : $('#video-id-value').val();
+	data.currentTime = $('body').data('time') ? $('body').data('time') : 0;
 }
 
 // Triggeres when API has been injected
@@ -37,12 +43,23 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-	event.target.playVideo();
+	playVideo();
 }
 
 function onPlayerStateChange(event) {
-	if (event.data == YT.PlayerState.PLAYING) {
-		update();
+	if (event.data == YT.PlayerState.PLAYING ) {
+		if ( data.userType != 'listener' ) {
+			update();	
+		} else {
+			$('.info').text( 'Now playing: ' + player.getVideoData().title );
+		}
+	}
+}
+
+function playVideo() {
+	player.playVideo();
+	if ( data.userType != 'broadcaster' ) { 
+		player.seekTo(data.currentTime);
 	}
 }
 

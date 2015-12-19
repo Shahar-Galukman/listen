@@ -17,7 +17,13 @@ class SongsController extends Controller
      */
     public function index()
     {
-        //
+        $song = \App\PlayingSong::find(1);
+
+        if ( is_null( $song ) ) {
+            return 'No songs being broadcast at the moment';
+        }
+
+        return view('listen')->with('song', $song);
     }
 
     /**
@@ -59,10 +65,10 @@ class SongsController extends Controller
                 // Song record exists, update is required
                 return self::update($request, $row->id);
             }
-
         }
 
-        return $data;
+        // Throw an excpetion here
+        return 'Invalid videoId provided';
     }
 
     /**
@@ -102,6 +108,7 @@ class SongsController extends Controller
 
         $song->save();
 
+        // Return a 200 here
         return 'updated';
     }
 

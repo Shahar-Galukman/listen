@@ -33,21 +33,23 @@
             .title {
                 font-size: 96px;
             }
+
+            #player {
+                display: none;
+            }
         </style>
         
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
     </head>
-    <body>
+    <body class="listener" data-songid=<?php echo $song->song_id; ?> data-time=<?php echo $song->current_time; ?>>
         <div class="container">
             <div class="content">
                 <div class="title">Music Share</div>
-                <h3>By Shahar and Yuval</p>
+                <h3>By Shahar and Yuval</h3>
                 <!-- Le Youtube player -->
                 <div id="player"></div>
-                <p class="counter">0</p>
-
-                <input id="video-id-value" type="text" value="3YR8DCRgmvQ">
+                <h1 class="info">...</h1>
             </div>
         </div>
 
