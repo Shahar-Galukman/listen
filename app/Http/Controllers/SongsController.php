@@ -7,9 +7,17 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\PlayingSong;
+use Vinkla\Pusher\PusherManager;
 
 class SongsController extends Controller
 {
+
+    protected $pusher;
+
+    public function __construct(PusherManager $pusher) {
+        $this->pusher = $pusher;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -61,6 +69,9 @@ class SongsController extends Controller
 
                 $song->save();
 
+                // Notify listeners about song change
+                $this->pusher->trigger('playlist-channel', 'track-changed', ['id' => $songId]);
+
                 return 'created';
             } else {
                 // Song record exists, update is required
@@ -107,7 +118,7 @@ class SongsController extends Controller
         
         $song->current_time = $request->currentTime;
 
-        $song->save();
+        $song->save();        
 
         // Return a 200 here
         return 'updated';

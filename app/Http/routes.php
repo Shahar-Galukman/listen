@@ -16,5 +16,4 @@ Route::get('/', function () {
 });
 
 Route::get('/listen', 'SongsController@index');
-
 Route::post('/songs', 'SongsController@store');

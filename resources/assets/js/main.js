@@ -26,6 +26,28 @@ function init(){
 	data.userType 	 = ($('body').hasClass('listener')) ? 'listener' : 'broadcaster';
 	data.videoId 	 = $('#data').data('songid') ? $('#data').data('songid') : $('#video-id-value').val();
 	data.currentTime = $('#data').data('time') ? $('#data').data('time') : 0;
+
+	// Pusher time
+	if ( data.userType != 'broadcaster' ) {
+		
+		var pusher = new Pusher('16311b1fa68b6c4f56e6', {
+	      encrypted: true
+	    });
+
+	    var channel = pusher.subscribe('playlist-channel');
+	    channel.bind('track-changed', function(d) {
+	    	console.log('track-changed id: ' + d.id);
+			data.videoId = d.id;
+			changeTrack();
+	    });
+	}
+
+	// Broadcaster video change
+	$(document).on('click', '#video-id-submit', function(event){
+		event.preventDefault();
+		data.videoId = $('#video-id-value').val();
+		changeTrack();
+	});
 }
 
 // Triggeres when API has been injected
@@ -54,6 +76,8 @@ function onPlayerStateChange(event) {
 		}
 
 		update();
+	} else {
+		cancelAnimationFrame(update);
 	}
 }
 
@@ -69,7 +93,13 @@ function stopVideo() {
 	player.stopVideo();
 }
 
-var once = true;
+function changeTrack() {
+	data.currentTime = 0;
+
+	stopVideo();
+	player.loadVideoById( data.videoId );
+}
+
 var previousSecond = 0
 function update(){
 	// Get current time seconds (before decimal point)
@@ -93,14 +123,5 @@ function update(){
 	
 	requestAnimationFrame(update);
 }
-
-$(document).on('click', '#video-id-submit', function(event) {
-	data.videoId = $('#video-id-value').val();
-	data.currentTime = 0;
-
-	event.preventDefault();
-	stopVideo();
-	player.loadVideoById( data.videoId )
-});
 
 init();

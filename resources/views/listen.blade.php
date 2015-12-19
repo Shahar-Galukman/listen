@@ -58,6 +58,7 @@
         <?php endif; ?>
 
         <script src="../resources/assets/js/vendor/jquery.js"></script>
+        <script src="../resources/assets/js/vendor/pusher.min.js"></script>
         <script src="../resources/assets/js/main.js"></script>
     </body>
 </html>
