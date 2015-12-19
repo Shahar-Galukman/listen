@@ -33,6 +33,11 @@
             .title {
                 font-size: 96px;
             }
+
+            .in-pot-er {
+                font-weight: bold;
+                font-size: 2em;
+            }
         </style>
         
         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -42,12 +47,15 @@
         <div class="container">
             <div class="content">
                 <div class="title">Music Share</div>
-                <h3>By Shahar and Yuval</p>
                 <!-- Le Youtube player -->
                 <div id="player"></div>
-                <p class="counter">0</p>
-
-                <input id="video-id-value" type="text" value="3YR8DCRgmvQ">
+                <h3 class="counter">.</h3>
+                
+                <div class="in-pot-er">
+                    <label for="video-id-value">Youtube video id: </label>
+                    <input id="video-id-value" type="text" value="3YR8DCRgmvQ">
+                    <input id="video-id-submit" type="submit">
+                </div>
             </div>
         </div>
 

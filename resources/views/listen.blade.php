@@ -42,16 +42,20 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
     </head>
-    <body class="listener" data-songid=<?php echo $song->song_id; ?> data-time=<?php echo $song->current_time; ?>>
+    <body class="listener">
         <div class="container">
             <div class="content">
                 <div class="title">Music Share</div>
-                <h3>By Shahar and Yuval</h3>
                 <!-- Le Youtube player -->
                 <div id="player"></div>
-                <h1 class="info">...</h1>
+                <h1 class="info"><?php echo isset($song) ? 'Loading...' : 'No active broadcast'; ?></h1>
+                <h3 class="counter">.</h3>
             </div>
         </div>
+        
+        <?php if ( isset($song) ) : ?>
+            <div id="data" data-songid=<?php echo $song->song_id; ?> data-time=<?php echo $song->current_time; ?>></div>
+        <?php endif; ?>
 
         <script src="../resources/assets/js/vendor/jquery.js"></script>
         <script src="../resources/assets/js/main.js"></script>

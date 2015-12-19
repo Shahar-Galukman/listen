@@ -24,8 +24,8 @@ function init(){
 
 	// Set user type (until implemented within ACL)
 	data.userType 	 = ($('body').hasClass('listener')) ? 'listener' : 'broadcaster';
-	data.videoId 	 = $('body').data('songid') ? $('body').data('songid') : $('#video-id-value').val();
-	data.currentTime = $('body').data('time') ? $('body').data('time') : 0;
+	data.videoId 	 = $('#data').data('songid') ? $('#data').data('songid') : $('#video-id-value').val();
+	data.currentTime = $('#data').data('time') ? $('#data').data('time') : 0;
 }
 
 // Triggeres when API has been injected
@@ -47,17 +47,19 @@ function onPlayerReady(event) {
 }
 
 function onPlayerStateChange(event) {
+	console.log('state changed');
 	if (event.data == YT.PlayerState.PLAYING ) {
-		if ( data.userType != 'listener' ) {
-			update();	
-		} else {
-			$('.info').text( 'Now playing: ' + player.getVideoData().title );
+		if ( data.userType != 'broadcaster' ) {
+			$('.info').html( 'Now playing: <i>' + player.getVideoData().title + '</i>' );
 		}
+
+		update();
 	}
 }
 
 function playVideo() {
 	player.playVideo();
+
 	if ( data.userType != 'broadcaster' ) { 
 		player.seekTo(data.currentTime);
 	}
@@ -77,16 +79,28 @@ function update(){
 	if ( previousSecond != roundedToSeconds ) {
 		$('.counter').text(roundedToSeconds);
 		data.currentTime = previousSecond = roundedToSeconds;
-		// update server with playing song values
-		$.post('songs', {
-			videoId: data.videoId,
-			currentTime: data.currentTime
-		}, function(data, textStatus, xhr) {
-			console.log(data);
-		});
+		
+		if ( data.userType != 'listener' ) { 
+			// update server with playing song values
+			$.post('songs', {
+				videoId: data.videoId,
+				currentTime: data.currentTime
+			}, function(data, textStatus, xhr) {
+				console.log(data);
+			});
+		}
 	}
 	
 	requestAnimationFrame(update);
 }
+
+$(document).on('click', '#video-id-submit', function(event) {
+	data.videoId = $('#video-id-value').val();
+	data.currentTime = 0;
+
+	event.preventDefault();
+	stopVideo();
+	player.loadVideoById( data.videoId )
+});
 
 init();

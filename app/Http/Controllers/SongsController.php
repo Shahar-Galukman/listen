@@ -17,10 +17,11 @@ class SongsController extends Controller
      */
     public function index()
     {
-        $song = \App\PlayingSong::find(1);
+        $song = new PlayingSong();
+        $song = $song->fetchLastest();
 
         if ( is_null( $song ) ) {
-            return 'No songs being broadcast at the moment';
+            return view('listen');
         }
 
         return view('listen')->with('song', $song);
