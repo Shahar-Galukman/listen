@@ -57,8 +57,8 @@
             <div id="data" data-songid=<?php echo $song->song_id; ?> data-time=<?php echo $song->current_time; ?>></div>
         <?php endif; ?>
 
-        <script src="../resources/assets/js/vendor/jquery.js"></script>
-        <script src="../resources/assets/js/vendor/pusher.min.js"></script>
-        <script src="../resources/assets/js/main.js"></script>
+        <script src="js/vendor/jquery.js"></script>
+        <script src="js/vendor/pusher.min.js"></script>
+        <script src="js/main.js"></script>
     </body>
 </html>
