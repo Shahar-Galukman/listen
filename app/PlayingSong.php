@@ -18,7 +18,7 @@ class PlayingSong extends Model
      *
      * @var array
      */
-    protected $fillable = ['song_id', 'current_time'];
+    protected $fillable = ['video_id', 'current_time'];
 
     public function fetchLastest(){
         return $this->orderby('updated_at', 'desc')->first();

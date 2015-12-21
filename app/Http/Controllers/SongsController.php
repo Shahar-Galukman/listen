@@ -25,14 +25,7 @@ class SongsController extends Controller
      */
     public function index()
     {
-        $song = new PlayingSong();
-        $song = $song->fetchLastest();
-
-        if ( is_null( $song ) ) {
-            return view('listen');
-        }
-
-        return view('listen')->with('song', $song);
+        //
     }
 
     /**
@@ -60,17 +53,15 @@ class SongsController extends Controller
 
             $song = new PlayingSong();
             
-            $row = $song->where('song_id', $songId)->first();
+            $row = $song->where('video_id', $songId)->first();
             
             if ( is_null($row) ){
                 // Song doesn't exist, create it
-                $song->song_id = $songId;
+                $song->name = $data['name'];
+                $song->video_id = $songId;
                 $song->current_time = $data['currentTime'];
 
                 $song->save();
-
-                // Notify listeners about song change
-                $this->pusher->trigger('playlist-channel', 'track-changed', ['id' => $songId]);
 
                 return 'created';
             } else {
@@ -133,5 +124,34 @@ class SongsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function broadcast() {
+        $songs = new PlayingSong();
+        $playlist = $songs->orderBy('updated_at')->get();
+
+        return view('broadcast')->with('playlist', $playlist);
+    }
+
+    public function listen() {
+        $song = new PlayingSong();
+        $song = $song->fetchLastest();
+
+        if ( is_null( $song ) ) {
+            return view('listen');
+        }
+
+        $playlist = $song->orderBy('updated_at')->get();
+
+        return view('listen')
+            ->with('song', $song)
+            ->with('playlist', $playlist);
+    }
+
+    // Notify listeners about track change
+    public function changeTrack(Request $request){
+        if ( isset($request->id) ){
+            $this->pusher->trigger('playlist-channel', 'track-changed', ['id' => $request->id]);
+        }
     }
 }

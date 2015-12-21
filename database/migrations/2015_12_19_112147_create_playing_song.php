@@ -14,7 +14,8 @@ class CreatePlayingSong extends Migration
     {
         Schema::create('playing_songs', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('song_id');
+            $table->string('name');
+            $table->string('video_id');
             $table->string('current_time');
             $table->timestamps();
         });

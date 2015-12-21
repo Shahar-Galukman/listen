@@ -11,9 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'SongsController@broadcast');
+Route::get('/listen', 'SongsController@listen');
 
-Route::get('/listen', 'SongsController@index');
 Route::post('/songs', 'SongsController@store');
+Route::post('/change', 'SongsController@changeTrack');

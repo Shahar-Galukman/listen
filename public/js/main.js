@@ -2,6 +2,7 @@
 
 // Global data/settings object
 var data = {
+	songName: '',
 	videoId: '',
 	currentTime: 0,
 	userType: 'listener' // Default 
@@ -69,10 +70,13 @@ function onPlayerReady(event) {
 }
 
 function onPlayerStateChange(event) {
-	console.log('state changed');
+	console.log('state changed: ' + event.data);
 	if (event.data == YT.PlayerState.PLAYING ) {
+
+		data.songName = player.getVideoData().title;
+
 		if ( data.userType != 'broadcaster' ) {
-			$('.info').html( 'Now playing: <i>' + player.getVideoData().title + '</i>' );
+			$('.info').html( 'Now playing: <i>' + data.songName + '</i>' );
 		}
 
 		update();
@@ -98,6 +102,10 @@ function changeTrack() {
 
 	stopVideo();
 	player.loadVideoById( data.videoId );
+
+	if ( data.userType != 'listener' ) {
+		$.post('change', {id: data.videoId}, function(data){});
+	}
 }
 
 var previousSecond = 0
@@ -113,6 +121,7 @@ function update(){
 		if ( data.userType != 'listener' ) { 
 			// update server with playing song values
 			$.post('songs', {
+				name: data.songName,
 				videoId: data.videoId,
 				currentTime: data.currentTime
 			}, function(data, textStatus, xhr) {

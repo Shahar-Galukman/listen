@@ -54,8 +54,10 @@
         </div>
         
         <?php if ( isset($song) ) : ?>
-            <div id="data" data-songid=<?php echo $song->song_id; ?> data-time=<?php echo $song->current_time; ?>></div>
+            <div id="data" data-songid={{ $song->video_id }} data-time={{ $song->current_time }}></div>
         <?php endif; ?>
+
+        <!-- {{ $playlist }} -->
 
         <script src="js/vendor/jquery.js"></script>
         <script src="js/vendor/pusher.min.js"></script>
