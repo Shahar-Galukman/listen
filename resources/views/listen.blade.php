@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Laravel</title>
+        <title>Shahar's Music Sharing thingy</title>
 
         <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
 
@@ -50,6 +50,8 @@
                 <div id="player"></div>
                 <h1 class="info"><?php echo isset($song) ? 'Loading...' : 'No active broadcast'; ?></h1>
                 <h3 class="counter">.</h3>
+                <button onclick="player.pauseVideo();">Pause</button>
+                <button onclick="player.playVideo();">Play</button>
             </div>
         </div>
         

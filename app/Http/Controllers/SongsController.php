@@ -9,9 +9,11 @@ use App\Http\Controllers\Controller;
 use App\PlayingSong;
 use Vinkla\Pusher\PusherManager;
 
-class SongsController extends Controller
-{
-
+class SongsController extends Controller {
+    
+    /**
+    * @var PusherManager
+    */
     protected $pusher;
 
     public function __construct(PusherManager $pusher) {
@@ -128,6 +130,7 @@ class SongsController extends Controller
 
     public function broadcast() {
         $songs = new PlayingSong();
+        // Fetch all sorted by last updated
         $playlist = $songs->orderBy('updated_at')->get();
 
         return view('broadcast')->with('playlist', $playlist);
@@ -141,11 +144,10 @@ class SongsController extends Controller
             return view('listen');
         }
 
+        // Fetch all sorted by last updated
         $playlist = $song->orderBy('updated_at')->get();
 
-        return view('listen')
-            ->with('song', $song)
-            ->with('playlist', $playlist);
+        return view('listen')->with('song', $song)->with('playlist', $playlist);
     }
 
     // Notify listeners about track change
