@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\PlayingSong;
+use App\Playlist;
+use Carbon\Carbon;
 use Vinkla\Pusher\PusherManager;
 
 class SongsController extends Controller {
@@ -27,7 +29,7 @@ class SongsController extends Controller {
      */
     public function index()
     {
-        //
+        return view('index');
     }
 
     /**
@@ -50,30 +52,42 @@ class SongsController extends Controller {
     {
         $data = $request->all();
 
-        if ( $request->has('videoId') ) {
-            $songId = $data['videoId'];
-
-            $song = new PlayingSong();
+        if ( ! empty($data) && isset($data['id']) ) {
+            $id = $data['id'];
             
-            $row = $song->where('video_id', $songId)->first();
+            $song = new Playlist();
+            
+            $row = $song->where('video_id', $id)->first();
             
             if ( is_null($row) ){
-                // Song doesn't exist, create it
-                $song->name = $data['name'];
-                $song->video_id = $songId;
-                $song->current_time = $data['currentTime'];
+
+                // We want to set the updated_at coorsponding to latest added
+                // song, so playlist would be consistent.
+                $latestSong = new Playlist();
+                $latestSong = $latestSong->orderby('updated_at', 'desc')->first();
+
+                $latestSongUpdateDate = Carbon::parse($latestSong->updated_at)->timestamp;
+                $latestSongDuration   = $latestSong->video_duration;
+                $nextUpdateAtStop     = $latestSongUpdateDate + $latestSongDuration;
+
+                // Add song
+                $song->video_id       = $id;
+                $song->video_name     = $data['name'];
+                $song->video_duration = $data['duration'];
+                $song->created_at     = Carbon::now('+2');
+                $song->updated_at     = Carbon::createFromTimestamp($nextUpdateAtStop)->toDateTimeString();
 
                 $song->save();
 
-                return 'created';
+                return (new Response('Created', Response::HTTP_CREATED));
             } else {
-                // Song record exists, update is required
-                return self::update($request, $row->id);
+                // Song record already exists
+                return (new Response('Conflict', Response::HTTP_CONFLICT));
             }
         }
 
-        // Throw an excpetion here
-        return 'Invalid videoId provided';
+        // Request data not supported
+        return (new Response('Unprocessable Entity', Response::HTTP_UNPROCESSABLE_ENTITY));
     }
 
     /**
@@ -107,14 +121,7 @@ class SongsController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $song = \App\PlayingSong::find($id);
-        
-        $song->current_time = $request->currentTime;
-
-        $song->save();        
-
-        // Return a 200 here
-        return 'updated';
+        //
     }
 
     /**
@@ -128,26 +135,10 @@ class SongsController extends Controller {
         //
     }
 
-    public function broadcast() {
-        $songs = new PlayingSong();
-        // Fetch all sorted by last updated
-        $playlist = $songs->orderBy('updated_at')->get();
+    public function getPlaylist(){
+        $playlist = new Playlist();
 
-        return view('broadcast')->with('playlist', $playlist);
-    }
-
-    public function listen() {
-        $song = new PlayingSong();
-        $song = $song->fetchLastest();
-
-        if ( is_null( $song ) ) {
-            return view('listen');
-        }
-
-        // Fetch all sorted by last updated
-        $playlist = $song->orderBy('updated_at')->get();
-
-        return view('listen')->with('song', $song)->with('playlist', $playlist);
+        return \Response::json( $playlist->orderby('updated_at', 'desc')->get() );
     }
 
     // Notify listeners about track change

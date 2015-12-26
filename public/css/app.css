@@ -1,0 +1,98 @@
+/* Utilities */
+
+.nopadding {
+	padding: 0 !important;
+}
+
+.nomargin {
+	margin: 0 !important;
+}
+
+.fullwidth {
+   width: 100%;
+   margin-left: auto;
+   margin-right: auto;
+   max-width: initial;
+}
+
+.small {
+	font-size: 20px;
+}
+
+.medium {
+	font-size: 35px;
+}
+
+.large {
+	font-size: 50px;
+}
+
+/* General */
+
+html, body, h1, h2, h3, h4, h5, h6 {
+	font-family: 'Jura', sans-serif;
+}
+
+body {
+	background: url(../img/symphony.png);
+}
+
+/* Header */
+.header {
+
+}
+
+/* Playlist */
+
+.playlist {
+	list-style: none;
+	max-width: 300px;
+}
+
+	.playlist .item {
+		position: relative;
+		color: #bcbcbc;
+		height: 60px;
+		padding: 0px 60px;
+		margin-bottom: 3px;
+		background-color: #fefefe;
+		box-shadow: 0 1px 1px rgba(0,0,0,0.2);
+		cursor: pointer;
+		transition: all 0.3s;
+	}
+
+		.playlist .item:before {
+			content: "\f1a4";
+		    position: absolute;
+		    font-family: "foundation-icons";
+		    top: 0px;
+		    left: 20px;
+		    font-size: 35px;
+		}
+
+		/*.playlist .item:not(.playing):hover {
+			background-color: rgba(52, 73, 94, 0.8);
+		}*/
+
+		/* song states */
+		.playlist .item.playing,
+		.playlist .item:hover {
+			color: #fefefe;
+			background-color: rgba(44, 62, 80, 0.9);
+		}
+
+		.playlist .item.playing:before {
+			color: rgba(46, 204, 113, 1);
+		}
+		
+		/*song meta*/
+		/*.playlist .item > *,
+		.playlist .item .song-meta > * {
+			display: inline-block;
+		}*/
+
+			.song-meta {
+				padding-top: 10px;
+				font-size: 20px;
+				line-height: 20px;
+			}

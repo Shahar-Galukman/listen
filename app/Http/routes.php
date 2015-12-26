@@ -11,8 +11,8 @@
 |
 */
 
-Route::get('/', 'SongsController@broadcast');
-Route::get('/listen', 'SongsController@listen');
+Route::get('/', 'SongsController@index');
+Route::get('/playlist', 'SongsController@getPlaylist');
 
-Route::post('/songs', 'SongsController@store');
+Route::post('/song/add', 'SongsController@store');
 Route::post('/change', 'SongsController@changeTrack');
