@@ -53,33 +53,37 @@ class SongsController extends Controller {
         $data = $request->all();
 
         if ( ! empty($data) && isset($data['id']) ) {
-            $id = $data['id'];
+            $videoId = $data['id'];
             
             $song = new Playlist();
             
-            $row = $song->where('video_id', $id)->first();
+            $row = $song->where('video_id', $videoId)->first();
             
             if ( is_null($row) ){
-
-                // We want to set the updated_at coorsponding to latest added
-                // song, so playlist would be consistent.
                 $latestSong = new Playlist();
                 $latestSong = $latestSong->orderby('updated_at', 'desc')->first();
 
-                $latestSongUpdateDate = Carbon::parse($latestSong->updated_at)->timestamp;
-                $latestSongDuration   = $latestSong->video_duration;
-                $nextUpdateAtStop     = $latestSongUpdateDate + $latestSongDuration;
-
                 // Add song
-                $song->video_id       = $id;
+                $song->video_id       = $videoId;
                 $song->video_name     = $data['name'];
                 $song->video_duration = $data['duration'];
                 $song->created_at     = Carbon::now('+2');
-                $song->updated_at     = Carbon::createFromTimestamp($nextUpdateAtStop)->toDateTimeString();
+                
+                if ( is_null($latestSong) ) {
+                    $song->updated_at = $song->created_at;
+                } else {
+                    // We want to set the updated_at coorsponding to latest added
+                    // song duration, for a consistent playlist.
+                    $latestSongUpdateDate = Carbon::parse($latestSong->updated_at)->timestamp;
+                    $latestSongDuration   = $latestSong->video_duration;
+                    $nextUpdateAtStop     = $latestSongUpdateDate + $latestSongDuration;
+                    
+                    $song->updated_at     = Carbon::createFromTimestamp($nextUpdateAtStop)->toDateTimeString();
+                }
 
                 $song->save();
 
-                return (new Response('Created', Response::HTTP_CREATED));
+                return (new Response( json_encode($song), Response::HTTP_CREATED ));
             } else {
                 // Song record already exists
                 return (new Response('Conflict', Response::HTTP_CONFLICT));
@@ -138,7 +142,33 @@ class SongsController extends Controller {
     public function getPlaylist(){
         $playlist = new Playlist();
 
-        return \Response::json( $playlist->orderby('updated_at', 'desc')->get() );
+        return \Response::json( $playlist->orderby('updated_at', 'asc')->get() );
+    }
+
+    //TODO: Development purpose only, should be made private in time
+    public function setUpdatedToToday(){
+        $playlist = new Playlist();
+        
+        $sortedPlaylist = $playlist->orderby('updated_at', 'asc')->get();
+
+        foreach ($sortedPlaylist as $key => &$value) {
+            $key = intval(json_encode($key));
+            if ( $key === 0 ) {
+                $value->updated_at    = Carbon::now('+2');
+                $latestSongDuration   = 0;
+                $latestSongUpdateDate = Carbon::parse($value->updated_at)->timestamp;
+            } else {
+                $latestSongDuration   = $sortedPlaylist[$key - 1]->video_duration;
+                $latestSongUpdateDate = Carbon::parse($sortedPlaylist[$key - 1]->updated_at)->timestamp;
+            }
+
+            $nextUpdateAtStop     = $latestSongUpdateDate + $latestSongDuration;
+            $value->updated_at    = Carbon::createFromTimestamp($nextUpdateAtStop)->toDateTimeString();
+
+            $value->save();
+        }
+
+        return \Response::json($sortedPlaylist);
     }
 
     // Notify listeners about track change

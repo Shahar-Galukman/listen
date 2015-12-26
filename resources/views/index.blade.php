@@ -26,17 +26,15 @@
                 
             </div>
 
-            <div class="row">
-                <div class="small-6 medium-6 large-6 columns nopadding">
-                    <div id="player"></div>
-                    <form action="">
-                        <input class="id" name="id" type="text" placeholder="id">
-                        <input class="name" name="name" type="text" placeholder="name">
-                        <input class="duration" name="duration" type="text" placeholder="duration">
-                        <button class="button" add-song>Add song</button>    
-                    </form>
-                </div>
-            </div> 
+            <div class="small-6 medium-6 large-6 columns nopadding">
+                <div id="player"></div>
+                <form action="">
+                    <input class="id" name="id" type="text" placeholder="id">
+                    <input class="name" name="name" type="text" placeholder="name">
+                    <input class="duration" name="duration" type="text" placeholder="duration">
+                    <button class="button" add-song>Add song</button>    
+                </form>
+            </div>
         </div>
         <input type="text" id="search-container">
         <button id="search-button"></button>

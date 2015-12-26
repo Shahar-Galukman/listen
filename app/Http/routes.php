@@ -16,3 +16,6 @@ Route::get('/playlist', 'SongsController@getPlaylist');
 
 Route::post('/song/add', 'SongsController@store');
 Route::post('/change', 'SongsController@changeTrack');
+
+//TODO: Development purpose only, should be blocked in time
+Route::get('/set', 'SongsController@setUpdatedToToday');
