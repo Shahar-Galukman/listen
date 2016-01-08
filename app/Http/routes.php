@@ -11,11 +11,14 @@
 |
 */
 
-Route::get('/', 'SongsController@index');
+Route::get('auth/facebook', 'Auth\AuthController@redirectToProvider');
+Route::get('auth/facebook/callback', array('as' => 'facebookCallback', 'uses' => 'Auth\AuthController@handleProviderCallback'));
+
+Route::get('/', array('as' => 'home', 'uses' => 'SongsController@index'));
 Route::get('/playlist', 'SongsController@getPlaylist');
 
 Route::post('/song/add', 'SongsController@store');
 Route::post('/change', 'SongsController@changeTrack');
 
 //TODO: Development purpose only, should be blocked in time
-Route::get('/set', 'SongsController@setUpdatedToToday');
+Route::get('/reset', 'SongsController@setUpdatedToToday');

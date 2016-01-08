@@ -35,4 +35,9 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'facebook' => [
+        'client_id' => '1036365009758435',
+        'client_secret' => '07ce01f108f9d15ba126dff18d9338cb',
+        'redirect' => 'http://dev.listen.com/auth/facebook/callback',
+    ],
 ];

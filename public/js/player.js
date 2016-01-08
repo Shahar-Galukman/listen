@@ -6,8 +6,9 @@ var player,
 			time: 0
 		},
 		loadPlaylist: function() {
-			playlist.playing.time = $('.playing > .song-meta').data('time');
-			playlist.playing.name = $('.playing > .song-meta').data('name');
+			var $meta = $('.playing > .song-meta');
+			playlist.playing.time = $meta.data('time');
+			playlist.playing.name = $meta.data('name');
 
 			playlist.list = $('.playlist .item .song-meta')
 							.map(function() {
@@ -47,7 +48,7 @@ function init(){
 	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 	// Attach listeners
-	$('button[add-song').on('click', playlist.addSong);
+	$('button[add-song]').on('click', playlist.addSong);
 }
 
 function onYouTubeIframeAPIReady() {

@@ -16,7 +16,7 @@
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
     <body>
-        
+    <img src="{{ $user->avatar  }}" alt="">
         <div class="row columns header">
             <h1></h1>
         </div>
@@ -45,7 +45,6 @@
         <script src="js/vendor/browser.min.js"></script>
         <script src="js/vendor/foundation.min.js"></script>
         <script src="js/vendor/what-input.min.js"></script>
-        
 
         <script src="js/app.js"></script>
         
