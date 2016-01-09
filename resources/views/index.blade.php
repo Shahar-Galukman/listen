@@ -16,28 +16,31 @@
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
     <body>
-    <img src="{{ $user->avatar  }}" alt="">
+    {{ $user  }}
+    <img src="" alt="">
         <div class="row columns header">
             <h1></h1>
         </div>
 
         <div class="row fullwidth">
-            <div id="playlist-container" class="small-6 medium-6 large-6 columns nopadding">
-                
-            </div>
+            {{-- Playlist --}}
+            <div id="playlist-container" class="small-6 medium-6 large-6 columns nopadding"></div>
 
             <div class="small-6 medium-6 large-6 columns nopadding">
+                {{-- Player --}}
                 <div id="player"></div>
+                {{-- Add song form --}}
                 <form action="">
                     <input class="id" name="id" type="text" placeholder="id">
                     <input class="name" name="name" type="text" placeholder="name">
                     <input class="duration" name="duration" type="text" placeholder="duration">
-                    <button class="button" add-song>Add song</button>    
+                    <button class="button" add-song>Add song</button>
                 </form>
             </div>
         </div>
-        <input type="text" id="search-container">
-        <button id="search-button"></button>
+
+        {{--<input type="text" id="search-container">--}}
+        {{--<button id="search-button"></button>--}}
 
         <script src="js/vendor/jquery.js"></script>
         <script src="js/vendor/react-0.14.3.js"></script>

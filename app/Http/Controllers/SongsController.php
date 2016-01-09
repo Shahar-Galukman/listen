@@ -8,7 +8,7 @@ use Illuminate\Http\Response;
 use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Playlist;
+use App\Song;
 use Carbon\Carbon;
 use Vinkla\Pusher\PusherManager;
 
@@ -30,8 +30,8 @@ class SongsController extends Controller {
      */
     public function index()
     {
-        Auth::check() ? $user = Auth::user() : null;
-        
+        Auth::check() ? $user = Auth::user() : $user = Auth::guest();
+
         return view('index')->with('user', $user);
     }
 
@@ -58,12 +58,12 @@ class SongsController extends Controller {
         if ( ! empty($data) && isset($data['id']) ) {
             $videoId = $data['id'];
             
-            $song = new Playlist();
+            $song = new Song();
             
             $row = $song->where('video_id', $videoId)->first();
             
             if ( is_null($row) ){
-                $latestSong = new Playlist();
+                $latestSong = new Song();
                 $latestSong = $latestSong->orderby('updated_at', 'desc')->first();
 
                 // Add song
@@ -143,16 +143,16 @@ class SongsController extends Controller {
     }
 
     public function getPlaylist(){
-        $playlist = new Playlist();
+        $playlist = new Song();
 
         return \Response::json( $playlist->orderby('updated_at', 'asc')->get() );
     }
 
     //TODO: Development purpose only, should be made private in time
     public function setUpdatedToToday(){
-        $playlist = new Playlist();
+        $song = new Song();
         
-        $sortedPlaylist = $playlist->orderby('updated_at', 'asc')->get();
+        $sortedPlaylist = $song->orderby('updated_at', 'asc')->get();
 
         foreach ($sortedPlaylist as $key => &$value) {
             $key = intval(json_encode($key));

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Playlist extends Model
+class Song extends Model
 {
     /**
      * The database table used by the model.
@@ -28,6 +28,7 @@ class Playlist extends Model
     protected $fillable = [
         'video_name',
         'video_id',
+        'video_duration',
         'artist',
         'title',
         'genre',

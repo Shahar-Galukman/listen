@@ -5,18 +5,24 @@ var player,
 			name: '',
 			time: 0
 		},
-		loadPlaylist: function() {
-			var $meta = $('.playing > .song-meta');
-			playlist.playing.time = $meta.data('time');
-			playlist.playing.name = $meta.data('name');
+		//loadPlaylist: function() {
+		//	var $meta = $('.playing > .song-meta');
+		//	playlist.playing.time = $meta.data('time');
+		//	playlist.playing.name = $meta.data('name');
+        //
+		//	playlist.list = $('.playlist .item .song-meta')
+		//					.map(function() {
+		//					    return $(this).data("id");
+		//					}).get();
+        //
+        //
+		//	player.loadPlaylist(playlist.list, 0, Math.round((Date.now() - playlist.playing.time) / 1000));
+		//},
+		loadSong: function(){
+			var $currentPlaying = $('.playing > .song-meta'),
+				currentData = $currentPlaying.data();
 
-			playlist.list = $('.playlist .item .song-meta')
-							.map(function() {
-							    return $(this).data("id");
-							}).get();
-
-
-			player.loadPlaylist(playlist.list, 0, Math.round((Date.now() - playlist.playing.time) / 1000));
+			player.loadVideoById(currentData.id, currentData.time);
 		},
 		addSong: function(event){
 			event.preventDefault();
@@ -26,7 +32,7 @@ var player,
 				name: $('.name').val(),
 				duration: $('.duration').val()
 			}, function(data, textStatus, xhr) {
-				
+				console.log(data);
 			})
 			.always(function(data, textStatus, xhr){
 				console.log(data);
@@ -63,7 +69,7 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-	playlist.loadPlaylist();
+	playlist.loadSong();
 }
 
 function onPlayerStateChange(event) {
