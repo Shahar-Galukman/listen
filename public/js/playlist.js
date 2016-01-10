@@ -7,11 +7,6 @@ var Song = React.createClass({
 
     componentDidMount: function() {
         if (this.isMounted()){
-            var updateTimeInMs = Date.parse(this.props.song.updated_at),
-                currentTime = Date.now();
-
-            this.props.song.time_to_play = Math.round( (currentTime - updateTimeInMs) / 1000 );
-
             this.setState({
                 song: this.props.song
             });
@@ -26,7 +21,6 @@ var Song = React.createClass({
             <li className={playingClass}>
                 <div className="song-meta"
                      data-id={this.state.song.video_id}
-                     data-time={this.state.song.time_to_play}
                      data-updated-at={this.state.song.updated_at}
                      data-name={this.state.song.video_name}
                      data-state={this.state.song.playing}>
@@ -71,24 +65,24 @@ var Playlist = React.createClass({
         }
 
         if (this.isMounted()) {
-        this.setState({
-          playlist: collection
-        });
-    }
+            this.setState({
+              playlist: collection
+            });
+        }
     }.bind(this));
   },
 
   render: function() {
   	var playlist = this.state.playlist.map(function(song){
             return (
-                <Song key={song.id} song={song} ></Song>
+                <Song key={song.id} song={song}></Song>
             );
         });
 
 		return (
-		<ul className="playlist">
-		    {playlist}
-		</ul>
+            <ul className="playlist">
+                {playlist}
+            </ul>
 		);
  	}
 });

@@ -19,10 +19,14 @@ var player,
 		//	player.loadPlaylist(playlist.list, 0, Math.round((Date.now() - playlist.playing.time) / 1000));
 		//},
 		loadSong: function(){
-			var $currentPlaying = $('.playing > .song-meta'),
-				currentData = $currentPlaying.data();
+			var currentData = $('.playing > .song-meta').data(),
+				time = Math.round( (Date.now() - Date.parse(currentData.updatedAt)) / 1000 );
 
-			player.loadVideoById(currentData.id, currentData.time);
+			player.loadVideoById(currentData.id, time);
+		},
+		changeSong: function(){
+			$('.playing').removeClass('playing').next().addClass('playing');
+			playlist.loadSong();
 		},
 		addSong: function(event){
 			event.preventDefault();
@@ -39,8 +43,6 @@ var player,
 				console.log(textStatus);
 				console.log(xhr);
 			});
-			
-
 		}
 	};
 
@@ -76,6 +78,10 @@ function onPlayerStateChange(event) {
 	console.log('state changed: ' + event.data);
 	if (event.data == YT.PlayerState.PLAYING ) {
 
+	}
+
+	if (event.data == YT.PlayerState.ENDED ) {
+		playlist.changeSong();
 	}
 }
 
