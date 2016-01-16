@@ -86,6 +86,9 @@ class SongsController extends Controller {
 
                 $song->save();
 
+                // Publish song added
+                $this->pusher->trigger('playlist-channel', 'song-added', []);
+
                 return (new Response( json_encode($song), Response::HTTP_CREATED ));
             } else {
                 // Song record already exists

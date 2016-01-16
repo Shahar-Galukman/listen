@@ -5,19 +5,6 @@ var player,
 			name: '',
 			time: 0
 		},
-		//loadPlaylist: function() {
-		//	var $meta = $('.playing > .song-meta');
-		//	playlist.playing.time = $meta.data('time');
-		//	playlist.playing.name = $meta.data('name');
-        //
-		//	playlist.list = $('.playlist .item .song-meta')
-		//					.map(function() {
-		//					    return $(this).data("id");
-		//					}).get();
-        //
-        //
-		//	player.loadPlaylist(playlist.list, 0, Math.round((Date.now() - playlist.playing.time) / 1000));
-		//},
 		loadSong: function(){
 			var currentData = $('.playing > .song-meta').data(),
 				time = Math.round( (Date.now() - Date.parse(currentData.updatedAt)) / 1000 );
@@ -56,7 +43,7 @@ function init(){
 	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 	// Attach listeners
-	$('button[add-song]').on('click', playlist.addSong);
+	//$('button[add-song]').on('click', playlist.addSong);
 }
 
 function onYouTubeIframeAPIReady() {

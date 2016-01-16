@@ -31,16 +31,16 @@ function init(){
 	// Pusher time
 	if ( data.userType != 'broadcaster' ) {
 		
-		var pusher = new Pusher('16311b1fa68b6c4f56e6', {
-	      encrypted: true
-	    });
-
-	    var channel = pusher.subscribe('playlist-channel');
-	    channel.bind('track-changed', function(d) {
-	    	console.log('track-changed id: ' + d.id);
-			data.videoId = d.id;
-			changeTrack();
-	    });
+        //var pusher = new Pusher('16311b1fa68b6c4f56e6', {
+	    //  encrypted: true
+	    //});
+        //
+	    //var channel = pusher.subscribe('playlist-channel');
+	    //channel.bind('track-changed', function(d) {
+	    //	console.log('track-changed id: ' + d.id);
+			//data.videoId = d.id;
+			//changeTrack();
+	    //});
 	}
 
 	// Broadcaster video change

@@ -1,3 +1,56 @@
+var Application = React.createClass({
+    getInitialState: function(){
+        return {
+            songId: null,
+            songName: null,
+            songDuration: null
+        };
+    },
+
+    handleIdChange: function(event){
+        this.setState({ songId: event.target.value });
+    },
+
+    handleNameChange: function(event){
+        this.setState({ songName: event.target.value });
+    },
+
+    handleDurationChange: function(event){
+        this.setState({ songDuration: event.target.value });
+    },
+
+    handleSubmit: function(event){
+        event.preventDefault();
+
+        $.post('song/add', {
+            id: this.state.songId,
+            name: this.state.songName,
+            duration: this.state.songDuration
+        }, function(data) {});
+    },
+
+    render: function(){
+
+        return (
+            <div>
+                <Playlist source="playlist" />
+                <div className="small-6 medium-6 large-6 columns nopadding">
+                    <div id="player"></div>
+                    <div id="add-song-container" className="small-3 medium-3 large-3">
+                        <form>
+                            <input type="text" value={this.state.id} onChange={this.handleIdChange}/>
+                            <input type="text" value={this.state.name} onChange={this.handleNameChange}/>
+                            <input type="text" value={this.state.duration} onChange={this.handleDurationChange}/>
+                            <input type="submit" onClick={this.handleSubmit} />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+});
+
 var Song = React.createClass({
     getInitialState: function(){
         return {
@@ -39,55 +92,72 @@ var Playlist = React.createClass({
     };
   },
 
-  componentDidMount: function() {
-    $.get(this.props.source, function(collection) {
-        // Set the play state according to current time of the songs collection
-        var now = Date.now(),
-            foundCurrent = false;
+  fetchFromServer: function(){
+      $.get(this.props.source, function(collection) {
 
-        for ( var i = 0; i < collection.length; i++ ) {
-            var time = Date.parse(collection[i].updated_at);
+          // Set the play state according to current time of the songs collection
+          var now = Date.now(),
+              foundCurrent = false;
 
-            if ( now - time > 0 ) {
-                collection[i].playing = 1;
-            } else if ( now - time < 0) {
-                collection[i].playing = -1;
+          for ( var i = 0; i < collection.length; i++ ) {
+              var time = Date.parse(collection[i].updated_at);
 
-                if ( collection[i - 1] && collection[i - 1].playing === 1 && ! foundCurrent ) {
-                    collection[i - 1].playing = 0;
-                    foundCurrent = true;
-                }
-            }
-        }
+              if ( now - time > 0 ) {
+                  collection[i].playing = 1;
+              } else if ( now - time < 0) {
+                  collection[i].playing = -1;
 
-        if ( !foundCurrent ) {
-            collection[collection.length - 1].playing = 0;
-        }
+                  if ( collection[i - 1] && collection[i - 1].playing === 1 && ! foundCurrent ) {
+                      collection[i - 1].playing = 0;
+                      foundCurrent = true;
+                  }
+              }
+          }
 
-        if (this.isMounted()) {
-            this.setState({
+          if ( !foundCurrent ) {
+              collection[collection.length - 1].playing = 0;
+          }
+
+          this.setState({
               playlist: collection
-            });
-        }
-    }.bind(this));
+          });
+
+      }.bind(this));
+  },
+  componentDidMount: function() {
+      if (this.isMounted()) {
+          this.fetchFromServer();
+
+          var pusher = new Pusher('16311b1fa68b6c4f56e6', {
+              encrypted: true
+          });
+
+          var channel = pusher.subscribe('playlist-channel');
+
+          channel.bind('song-added', function(d) {
+              this.fetchFromServer();
+          }.bind(this));
+      }
   },
 
   render: function() {
   	var playlist = this.state.playlist.map(function(song){
             return (
-                <Song key={song.id} song={song}></Song>
+                <Song key={song.id} song={song} />
             );
         });
 
 		return (
-            <ul className="playlist">
-                {playlist}
-            </ul>
+            <div id="playlist-container" className="small-6 medium-6 large-6 columns nopadding">
+                <ul className="playlist">
+                    {playlist}
+                </ul>
+            </div>
 		);
  	}
 });
 
 ReactDOM.render(
-  <Playlist source="playlist" />,
-  document.getElementById('playlist-container')
+  <Application />,
+  document.getElementById('application')
 );
