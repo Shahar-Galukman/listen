@@ -67,8 +67,20 @@ var Song = React.createClass({
     },
 
     render: function(){
-        var playingClass = 'item fullwidth';
-        this.state.song.playing === 0 ? playingClass += ' playing' : null;
+        var playingClass = 'item fullwidth',
+            state;
+
+        if ( this.state.song.playing === 0 ) {
+            playingClass += ' playing';
+            state = 'present';
+        }
+
+
+        if ( this.state.song.playing === -1 ) {
+            state = 'future';
+        } else {
+            state = 'past';
+        }
 
         return (
             <li className={playingClass}>
@@ -76,7 +88,7 @@ var Song = React.createClass({
                      data-id={this.state.song.video_id}
                      data-updated-at={this.state.song.updated_at}
                      data-name={this.state.song.video_name}
-                     data-state={this.state.song.playing}>
+                     data-state={state}>
                     <div className="title">{this.state.song.video_name}</div>
                 </div>
             </li>
@@ -148,7 +160,7 @@ var Playlist = React.createClass({
         });
 
 		return (
-            <div id="playlist-container" className="small-6 medium-6 large-6 columns nopadding">
+            <div id="playlist-container" className="small-12 medium-12 large-12 columns nopadding">
                 <ul className="playlist">
                     {playlist}
                 </ul>

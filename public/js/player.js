@@ -12,24 +12,13 @@ var player,
 			player.loadVideoById(currentData.id, time);
 		},
 		changeSong: function(){
-			$('.playing').removeClass('playing').next().addClass('playing');
-			playlist.loadSong();
-		},
-		addSong: function(event){
-			event.preventDefault();
+			var $current = $('.playing'),
+				$next = $current.next();
 
-			$.post('song/add', {
-				id: $('.id').val(),
-				name: $('.name').val(),
-				duration: $('.duration').val()
-			}, function(data, textStatus, xhr) {
-				console.log(data);
-			})
-			.always(function(data, textStatus, xhr){
-				console.log(data);
-				console.log(textStatus);
-				console.log(xhr);
-			});
+			$current.attr('data-state', 'past').removeClass('playing');
+			$next.addClass('playing');
+			$next.children('.song-meta').attr('data-state', 'present');
+			playlist.loadSong();
 		}
 	};
 
@@ -42,8 +31,6 @@ function init(){
 	var firstScriptTag = document.getElementsByTagName('script')[0];
 	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-	// Attach listeners
-	//$('button[add-song]').on('click', playlist.addSong);
 }
 
 function onYouTubeIframeAPIReady() {
