@@ -33,14 +33,16 @@ var Application = React.createClass({
 
         return (
             <div>
-                <Playlist source="playlist" />
-                <div className="small-6 medium-6 large-6 columns nopadding">
+                <div id="playlist-container" className="mall-12 medium-6 large-6 columns nopadding">
+                    <Playlist source="playlist" />
+                </div>
+                <div className="small-12 medium-6 large-6 columns">
                     <div id="player"></div>
-                    <div id="add-song-container" className="small-3 medium-3 large-3">
+                    <div id="add-song-container" className="small-8 medium-6 large-3">
                         <form>
-                            <input type="text" value={this.state.id} onChange={this.handleIdChange}/>
-                            <input type="text" value={this.state.name} onChange={this.handleNameChange}/>
-                            <input type="text" value={this.state.duration} onChange={this.handleDurationChange}/>
+                            <input type="text" value={this.state.songId} onChange={this.handleIdChange}/>
+                            <input type="text" value={this.state.songName} onChange={this.handleNameChange}/>
+                            <input type="text" value={this.state.songDuration} onChange={this.handleDurationChange}/>
                             <input type="submit" onClick={this.handleSubmit} />
                         </form>
                     </div>
@@ -67,7 +69,7 @@ var Song = React.createClass({
     },
 
     render: function(){
-        var playingClass = 'item fullwidth',
+        var playingClass = 'item small-12 medium-12 large-12 columns',
             state;
 
         if ( this.state.song.playing === 0 ) {
@@ -89,7 +91,7 @@ var Song = React.createClass({
                      data-updated-at={this.state.song.updated_at}
                      data-name={this.state.song.video_name}
                      data-state={state}>
-                    <div className="title">{this.state.song.video_name}</div>
+                    <p className="title">{this.state.song.video_name}</p>
                 </div>
             </li>
         );
@@ -153,18 +155,16 @@ var Playlist = React.createClass({
   },
 
   render: function() {
-  	var playlist = this.state.playlist.map(function(song){
+  	var playlist = this.state.playlist.map(function(song, index){
             return (
-                <Song key={song.id} song={song} />
+                <Song key={index} song={song} />
             );
         });
 
 		return (
-            <div id="playlist-container" className="small-12 medium-12 large-12 columns nopadding">
-                <ul className="playlist">
+                <ul className="playlist" >
                     {playlist}
                 </ul>
-            </div>
 		);
  	}
 });
@@ -173,3 +173,5 @@ ReactDOM.render(
   <Application />,
   document.getElementById('application')
 );
+
+//style={{width: 320 * playlist.length + 'px'}}

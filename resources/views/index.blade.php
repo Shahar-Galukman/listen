@@ -17,8 +17,8 @@
     </head>
     <body>
     {{ $user  }}
-    <img src="" alt="">
-        <div class="row columns header"> </div>
+
+        <div class="row columns header"></div>
 
         <div id="application" class="row fullwidth"></div>
 
@@ -33,7 +33,7 @@
         <script src="js/vendor/pusher.min.js"></script>
 
         <script src="js/app.js"></script>
-        
+
         <script src="js/player.js"></script>
         <script type="text/babel" src="js/playlist.js"></script>
     </body>

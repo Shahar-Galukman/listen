@@ -43,56 +43,58 @@ body {
 }
 
 /* Playlist */
-
-.playlist {
-	list-style: none;
-	max-width: 300px;
+#playlist-container {
 }
 
-	.playlist .item {
-		position: relative;
-		color: #bcbcbc;
-		height: 60px;
-		padding: 0px 60px;
-		margin-bottom: 3px;
-		background-color: #fefefe;
-		box-shadow: 0 1px 1px rgba(0,0,0,0.2);
-		cursor: pointer;
-		transition: all 0.3s;
+	.playlist {
+		display: block;
+		min-width: 320px;
+		list-style: none;
 	}
 
-		.playlist .item:before {
-			content: "\f1a4";
-		    position: absolute;
-		    font-family: "foundation-icons";
-		    top: 0px;
-		    left: 20px;
-		    font-size: 35px;
+		.playlist .item {
+			position: relative;
+			padding: 5px;
+			margin-bottom: 5px;
+			background-color: #fefefe;
+			box-shadow: 0 1px 1px rgba(0,0,0,0.2);
+			cursor: pointer;
+			transition: all 0.3s;
+			float: none;
 		}
 
-		/*.playlist .item:not(.playing):hover {
-			background-color: rgba(52, 73, 94, 0.8);
-		}*/
+			/*.playlist .item:before {*/
+				/*content: "\f1a4";*/
+				/*position: absolute;*/
+				/*font-family: "foundation-icons";*/
+				/*top: 0px;*/
+				/*left: 20px;*/
+				/*font-size: 35px;*/
+			/*}*/
 
-		/* song states */
-		.playlist .item.playing,
-		.playlist .item:hover {
-			color: #fefefe;
-			background-color: rgba(44, 62, 80, 0.9);
-		}
+			/*.playlist .item:not(.playing):hover {
+				background-color: rgba(52, 73, 94, 0.8);
+			}*/
 
-		.playlist .item.playing:before {
-			color: rgba(46, 204, 113, 1);
-		}
-		
-		/*song meta*/
-		/*.playlist .item > *,
-		.playlist .item .song-meta > * {
-			display: inline-block;
-		}*/
-
-			.song-meta {
-				padding-top: 10px;
-				font-size: 20px;
-				line-height: 20px;
+			/* song states */
+			.playlist .item.playing,
+			.playlist .item:hover {
+				color: #fefefe;
+				background-color: rgba(44, 62, 80, 0.9);
 			}
+
+			.playlist .item.playing:before {
+				color: rgba(46, 204, 113, 1);
+			}
+
+			/*song meta*/
+			/*.playlist .item > *,
+			.playlist .item .song-meta > * {
+				display: inline-block;
+			}*/
+
+				.song-meta {
+					padding-top: 10px;
+					font-size: 20px;
+					line-height: 20px;
+				}
