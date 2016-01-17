@@ -7,7 +7,6 @@ use Illuminate\Http\Response;
 
 use Auth;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use App\Song;
 use Carbon\Carbon;
 use Vinkla\Pusher\PusherManager;
@@ -70,7 +69,7 @@ class SongsController extends Controller {
                 $song->video_id       = $videoId;
                 $song->video_name     = $data['name'];
                 $song->video_duration = $data['duration'];
-                $song->created_at     = Carbon::now('+2');
+                $song->created_at     = Carbon::now()->addHours(2);
                 
                 if ( is_null($latestSong) ) {
                     $song->updated_at = $song->created_at;
@@ -160,7 +159,7 @@ class SongsController extends Controller {
         foreach ($sortedPlaylist as $key => &$value) {
             $key = intval(json_encode($key));
             if ( $key === 0 ) {
-                $value->updated_at    = Carbon::now('+2');
+                $value->updated_at    = Carbon::now()->addHours(2);
                 $latestSongDuration   = 0;
                 $latestSongUpdateDate = Carbon::parse($value->updated_at)->timestamp;
             } else {
