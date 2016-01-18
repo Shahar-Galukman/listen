@@ -55,6 +55,10 @@ function onPlayerStateChange(event) {
 
 	}
 
+	if (event.data == YT.PlayerState.PAUSED ) {
+		player.playVideo();
+	}
+
 	if (event.data == YT.PlayerState.ENDED ) {
 		playlist.changeSong();
 	}

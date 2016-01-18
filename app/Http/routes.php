@@ -19,6 +19,7 @@ Route::get('/playlist', 'SongsController@getPlaylist');
 
 Route::post('/song/add', 'SongsController@store');
 Route::post('/change', 'SongsController@changeTrack');
+Route::post('/search', 'YoutubeController@queryYoutube');
 
 //TODO: Development purpose only, should be blocked in time
 Route::get('/reset', 'SongsController@setUpdatedToToday');

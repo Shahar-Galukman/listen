@@ -1,51 +1,40 @@
 var Application = React.createClass({
     getInitialState: function(){
         return {
-            songId: null,
-            songName: null,
-            songDuration: null
+            query: 'Search here...'
         };
     },
 
-    handleIdChange: function(event){
-        this.setState({ songId: event.target.value });
-    },
-
-    handleNameChange: function(event){
-        this.setState({ songName: event.target.value });
-    },
-
-    handleDurationChange: function(event){
-        this.setState({ songDuration: event.target.value });
+    handleQueryChange: function(event){
+        this.setState({ query: event.target.value });
     },
 
     handleSubmit: function(event){
         event.preventDefault();
 
-        $.post('song/add', {
-            id: this.state.songId,
-            name: this.state.songName,
-            duration: this.state.songDuration
-        }, function(data) {});
+        $.post('search', {
+            query: this.state.query
+        }, function(data) {
+            console.log(data);
+        });
     },
 
     render: function(){
 
         return (
             <div>
-                <div id="playlist-container" className="mall-12 medium-6 large-6 columns nopadding">
+                <div id="playlist-container" className="mall-12 medium-6 large-4 columns nopadding">
                     <Playlist source="playlist" />
                 </div>
                 <div className="small-12 medium-6 large-6 columns">
                     <div id="player"></div>
                     <div id="add-song-container" className="small-8 medium-6 large-3">
                         <form>
-                            <input type="text" value={this.state.songId} onChange={this.handleIdChange}/>
-                            <input type="text" value={this.state.songName} onChange={this.handleNameChange}/>
-                            <input type="text" value={this.state.songDuration} onChange={this.handleDurationChange}/>
+                            <input type="text" value={this.state.query} onChange={this.handleQueryChange}/>
                             <input type="submit" onClick={this.handleSubmit} />
                         </form>
                     </div>
+
                 </div>
             </div>
         );

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-use Auth;
 use App\Http\Requests;
 use App\Song;
 use Carbon\Carbon;
@@ -29,7 +28,7 @@ class SongsController extends Controller {
      */
     public function index()
     {
-        Auth::check() ? $user = Auth::user() : $user = Auth::guest();
+        \Auth::check() ? $user = \Auth::user() : $user = \Auth::guest();
 
         return view('index')->with('user', $user);
     }

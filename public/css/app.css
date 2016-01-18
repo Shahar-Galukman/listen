@@ -35,6 +35,7 @@ html, body, h1, h2, h3, h4, h5, h6 {
 
 body {
 	background: url(../img/symphony.png);
+	overflow: hidden;
 }
 
 /* Header */
@@ -49,11 +50,15 @@ body {
 	.playlist {
 		display: block;
 		min-width: 320px;
+		height: 100vh;
 		list-style: none;
+		overflow-y: visible;
+		overflow-x: hidden;
 	}
 
 		.playlist .item {
 			position: relative;
+			min-width: 320px;
 			padding: 5px;
 			margin-bottom: 5px;
 			background-color: #fefefe;
