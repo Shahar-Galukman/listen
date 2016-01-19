@@ -103,3 +103,29 @@ body {
 					font-size: 20px;
 					line-height: 20px;
 				}
+
+#add-song-container form {
+
+}
+
+	#add-song-container form input[type="text"],
+	#add-song-container form .fi-magnifying-glass {
+		display: inline-block;
+	}
+
+	#add-song-container form .fi-magnifying-glass {
+		position: relative;
+		width: 2.4375rem;
+		height: 2.4375rem;
+		cursor: pointer;
+	}
+
+	#add-song-container form .fi-magnifying-glass:before {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 2.4375rem;
+		height: 2.4375rem;
+		font-size: 2.4375rem;
+		text-align: center;
+	}

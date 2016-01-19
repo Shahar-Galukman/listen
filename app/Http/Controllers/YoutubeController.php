@@ -12,25 +12,31 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class YoutubeController extends Controller {
-//$video = \Youtube::searchAdvanced(array(
-//'q' => 'juice',
-//'part' => 'snippet',
-//'type' => 'video',
-//'videoCategoryId' => '#music'
-//));
+
 //$video = \Youtube::getVideoInfo('MNyG-xu-7SQ');
-//var_dump($video);
+
+    /**
+     * Inquire Youtube Data API with a song name query
+     * @param Request $request
+     * @return Response
+     */
     public function queryYoutube(Request $request) {
         $results = null;
-        if ( $request->has('query') ) {
-            $results = \Youtube::searchAdvanced(array(
+
+        if ( $request->has('query') && count($request->input('query')) > 0 ) {
+            $config = array(
                 'q' => $request->input('query'),
                 'part' => 'snippet',
                 'type' => 'video',
-                'videoCategoryId' => '#music'
-            ));
+                'maxResults' => 3,
+                'videoEmbeddable' => 'true',
+                'videoSyndicated' => 'true',
+                'videoCategoryId' => '10' // Music category id
+            );
+
+            $results = \Youtube::searchAdvanced( $config );
         }
 
-        return (new Response(json_encode($results)));
+        return (new Response( json_encode($results) ));
     }
 }

@@ -1,7 +1,8 @@
 var Application = React.createClass({
     getInitialState: function(){
         return {
-            query: 'Search here...'
+            query: 'Search here...',
+            results: []
         };
     },
 
@@ -12,34 +13,65 @@ var Application = React.createClass({
     handleSubmit: function(event){
         event.preventDefault();
 
-        $.post('search', {
-            query: this.state.query
-        }, function(data) {
-            console.log(data);
-        });
+        if ( this.state.query.length > 0 ) {
+            $.post('search', {
+                query: this.state.query
+            }, function(data) {
+                if ( data != false ) {
+                    this.setState({ results: JSON.parse(data) });
+                }
+            }.bind(this));
+        }
     },
 
     render: function(){
+        // TODO: separate to it's own class
+        var results = this.state.results.map(function(record, index){
+            return (
+                <YoutubeRecord key={index} record={record} />
+            );
+        });
 
         return (
-            <div>
-                <div id="playlist-container" className="mall-12 medium-6 large-4 columns nopadding">
+            <div className="application-inner">
+                <div id="playlist-container" className="small-12 medium-6 large-4 columns nopadding">
                     <Playlist source="playlist" />
                 </div>
+
                 <div className="small-12 medium-6 large-6 columns">
-                    <div id="player"></div>
-                    <div id="add-song-container" className="small-8 medium-6 large-3">
-                        <form>
-                            <input type="text" value={this.state.query} onChange={this.handleQueryChange}/>
-                            <input type="submit" onClick={this.handleSubmit} />
-                        </form>
+                    <div className="row">
+                        <div id="add-song-container" className="small-12 medium-6 large-6">
+                            <form>
+                                <input type="text" value={this.state.query} onChange={this.handleQueryChange}/>
+                                <input type="submit" onClick={this.handleSubmit} />
+                            </form>
+                            <ul className="results">
+                                {results}
+                            </ul>
+                        </div>
                     </div>
 
+                    <div className="row">
+                        <div className="small-12 medium-6 large-6 columns">
+                            <div id="player"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
     }
 
+});
+
+var YoutubeRecord = React.createClass({
+    render: function(){
+        var record = this.props.record;
+        return (
+            <li >
+                {record.snippet.title}
+            </li>
+        );
+    }
 });
 
 var Song = React.createClass({
@@ -85,7 +117,6 @@ var Song = React.createClass({
             </li>
         );
     }
-
 });
 
 var Playlist = React.createClass({
@@ -151,9 +182,9 @@ var Playlist = React.createClass({
         });
 
 		return (
-                <ul className="playlist" >
-                    {playlist}
-                </ul>
+            <ul className="playlist" >
+                {playlist}
+            </ul>
 		);
  	}
 });
@@ -162,5 +193,3 @@ ReactDOM.render(
   <Application />,
   document.getElementById('application')
 );
-
-//style={{width: 320 * playlist.length + 'px'}}
