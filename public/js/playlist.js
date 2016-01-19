@@ -64,11 +64,37 @@ var Application = React.createClass({
 });
 
 var YoutubeRecord = React.createClass({
+    handleClick: function(event) {
+
+        // TODO: regex for Youtube id
+        if ( event.target.dataset.id.length > 0 ) {
+            $.post('inquire', {
+                id: event.target.dataset.id
+            }, function(data) {
+                data = JSON.parse(data);
+                var duration = data.contentDetails.duration,
+                    minutes = duration.match(/\d+/g)[0],
+                    seconds = duration.match(/\d+/g)[1],
+                    totalInS = (minutes * 60) + seconds;
+
+                if ( minutes < 30 ) {
+                    $.post('song/add', {
+                        id: data.id,
+                        name: data.snippet.title,
+                        duration: totalInS
+                    });
+                }
+
+            }.bind(this));
+        }
+    },
+
     render: function(){
         var record = this.props.record;
         return (
-            <li >
+            <li data-id={record.id.videoId} onClick={this.handleClick}>
                 {record.snippet.title}
+
             </li>
         );
     }

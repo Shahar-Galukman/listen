@@ -39,4 +39,16 @@ class YoutubeController extends Controller {
 
         return (new Response( json_encode($results) ));
     }
+
+    public function queryYoutubeVideo(Request $request){
+        $video = null;
+
+        if ( $request->has('id') ) {
+            $video = \Youtube::getVideoInfo( $request->input('id') );
+
+
+        }
+
+        return (new Response( json_encode($video) ));
+    }
 }
