@@ -65,11 +65,13 @@ var Application = React.createClass({
 
         return (
             <div className="application-inner">
-                <div id="playlist-container" className="small-12 medium-6 large-4 columns nopadding">
-                    <Playlist source="playlist" />
-                </div>
+                <div className="small-12 medium-12 large-6 columns">
+                    <div className="row">
+                        <div className="small-12 medium-12 large-12 columns nopadding">
+                            <div id="player"></div>
+                        </div>
+                    </div>
 
-                <div className="small-12 medium-6 large-6 columns">
                     <div className="row">
                         <div id="add-song-container" className="small-12 medium-12 large-12 columns">
                             <div className="row">
@@ -79,7 +81,10 @@ var Application = React.createClass({
                                            onChange={this.handleQueryChange}
                                            className="small-10 medium-10 large-10 columns"
                                            placeholder="Search song..."/>
-                                    <button type="submit" disabled={this.state.submitted} onClick={this.handleSubmit} className="small-2 medium-2 large-2 columns fi-magnifying-glass">&nbsp;</button>
+                                    <button type="submit"
+                                            disabled={this.state.submitted}
+                                            onClick={this.handleSubmit}
+                                            className="small-2 medium-2 large-2 columns fi-magnifying-glass label">&nbsp;</button>
                                 </form>
                             </div>
 
@@ -90,12 +95,10 @@ var Application = React.createClass({
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div className="row">
-                        <div className="small-12 medium-12 large-12 columns text-center">
-                            <div id="player"></div>
-                        </div>
-                    </div>
+                <div id="playlist-container" className="small-12 medium-12 large-4 columns nopadding">
+                    <Playlist source="playlist" />
                 </div>
             </div>
         );

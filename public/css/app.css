@@ -34,7 +34,7 @@ html, body, h1, h2, h3, h4, h5, h6 {
 }
 
 body {
-	background: url(../img/symphony.png);
+	background: url(../img/shattered.png);
 	overflow: hidden;
 }
 
@@ -106,6 +106,10 @@ body {
 
 /* Add song */
 
+#add-song-container.large-12 {
+    max-width: 495px;
+}
+
 #add-song-container form {
     padding-left: 0;
 }
@@ -129,18 +133,21 @@ body {
 	}
 
 	#add-song-container form .fi-magnifying-glass:before {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 2.4375rem;
-		height: 2.4375rem;
-		font-size: 2.4375rem;
-		text-align: center;
+        position: absolute;
+        top: 2px;
+        left: -1px;
+        width: 2.4375rem;
+        height: 2.4375rem;
+        font-size: 2rem;
+        text-align: center;
 	}
 
 .results {
+    max-width: calc(100% - 50px);
 	list-style: none;
 	padding-left: 0;
+	padding-right: 0;
+    margin-top: 6px;
 }
 
 	.results li {
