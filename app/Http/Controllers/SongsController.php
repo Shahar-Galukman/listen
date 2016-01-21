@@ -140,7 +140,10 @@ class SongsController extends Controller {
      */
     public function destroy($id)
     {
-        //
+        $song = Song::find($id);
+        $song->delete();
+
+        return $this->index();
     }
 
     public function getPlaylist(){

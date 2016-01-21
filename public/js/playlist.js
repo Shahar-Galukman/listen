@@ -73,8 +73,8 @@ var YoutubeRecord = React.createClass({
             }, function(data) {
                 data = JSON.parse(data);
                 var duration = data.contentDetails.duration,
-                    minutes = duration.match(/\d+/g)[0],
-                    seconds = duration.match(/\d+/g)[1],
+                    minutes = +duration.match(/\d+/g)[0],
+                    seconds = +duration.match(/\d+/g)[1],
                     totalInS = (minutes * 60) + seconds;
 
                 if ( minutes < 30 ) {

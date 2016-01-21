@@ -18,6 +18,7 @@ Route::get('/', array('as' => 'home', 'uses' => 'SongsController@index'));
 Route::get('/playlist', 'SongsController@getPlaylist');
 
 Route::post('/song/add', 'SongsController@store');
+Route::get('/song/delete/{id}', 'SongsController@destroy');
 Route::post('/change', 'SongsController@changeTrack');
 Route::post('/search', 'YoutubeController@queryYoutube');
 Route::post('/inquire', 'YoutubeController@queryYoutubeVideo');
