@@ -154,20 +154,19 @@ class SongsController extends Controller {
         $song = new Song();
         
         $sortedPlaylist = $song->orderby('updated_at', 'asc')->get();
+        $previousSongsDuration   = 0;
+        $now = Carbon::now()->addHours(2);
 
         foreach ($sortedPlaylist as $key => &$value) {
             $key = intval(json_encode($key));
             if ( $key === 0 ) {
-                $value->updated_at    = Carbon::now()->addHours(2);
-                $latestSongDuration   = 0;
-                $latestSongUpdateDate = Carbon::parse($value->updated_at)->timestamp;
+                $value->updated_at = $now;
             } else {
-                $latestSongDuration   = $sortedPlaylist[$key - 1]->video_duration;
-                $latestSongUpdateDate = Carbon::parse($sortedPlaylist[$key - 1]->updated_at)->timestamp;
+                $previousSongsDuration += $sortedPlaylist[$key - 1]->video_duration;
             }
 
-            $nextUpdateAtStop     = $latestSongUpdateDate + $latestSongDuration;
-            $value->updated_at    = Carbon::createFromTimestamp($nextUpdateAtStop)->toDateTimeString();
+            $nextUpdateAtStop  = $now->timestamp + $previousSongsDuration;
+            $value->updated_at = Carbon::createFromTimestamp($nextUpdateAtStop)->toDateTimeString();
 
             $value->save();
         }

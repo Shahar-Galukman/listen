@@ -13,8 +13,6 @@ use Illuminate\Http\Response;
 
 class YoutubeController extends Controller {
 
-//$video = \Youtube::getVideoInfo('MNyG-xu-7SQ');
-
     /**
      * Inquire Youtube Data API with a song name query
      * @param Request $request
@@ -40,13 +38,16 @@ class YoutubeController extends Controller {
         return (new Response( json_encode($results) ));
     }
 
+    /**
+     * Get Youtube video info by video id
+     * @param Request $request
+     * @return Response
+     */
     public function queryYoutubeVideo(Request $request){
         $video = null;
 
         if ( $request->has('id') ) {
             $video = \Youtube::getVideoInfo( $request->input('id') );
-
-
         }
 
         return (new Response( json_encode($video) ));

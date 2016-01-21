@@ -152,31 +152,37 @@ var Playlist = React.createClass({
     };
   },
 
+  // Set the play state according to current time of the songs collection
+  markPlaying: function(collection){
+      var now = Date.now(),
+          foundCurrent = false;
+
+      for ( var i = 0; i < collection.length; i++ ) {
+          var time = Date.parse(collection[i].updated_at);
+
+          if ( now - time > 0 ) {
+              collection[i].playing = 1;
+          } else if ( now - time < 0) {
+              collection[i].playing = -1;
+
+              if ( collection[i - 1] && collection[i - 1].playing === 1 && ! foundCurrent ) {
+                  collection[i - 1].playing = 0;
+                  foundCurrent = true;
+              }
+          }
+      }
+
+      if ( !foundCurrent ) {
+          collection[collection.length - 1].playing = 0;
+      }
+
+      return collection;
+  },
+
   fetchFromServer: function(){
       $.get(this.props.source, function(collection) {
 
-          // Set the play state according to current time of the songs collection
-          var now = Date.now(),
-              foundCurrent = false;
-
-          for ( var i = 0; i < collection.length; i++ ) {
-              var time = Date.parse(collection[i].updated_at);
-
-              if ( now - time > 0 ) {
-                  collection[i].playing = 1;
-              } else if ( now - time < 0) {
-                  collection[i].playing = -1;
-
-                  if ( collection[i - 1] && collection[i - 1].playing === 1 && ! foundCurrent ) {
-                      collection[i - 1].playing = 0;
-                      foundCurrent = true;
-                  }
-              }
-          }
-
-          if ( !foundCurrent ) {
-              collection[collection.length - 1].playing = 0;
-          }
+          collection = this.markPlaying(collection);
 
           this.setState({
               playlist: collection
