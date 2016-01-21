@@ -155,7 +155,7 @@ class SongsController extends Controller {
         
         $sortedPlaylist = $song->orderby('updated_at', 'asc')->get();
         $previousSongsDuration   = 0;
-        $now = Carbon::now()->addHours(2);
+        $now = Carbon::now('UTC')->addHours(2);
 
         foreach ($sortedPlaylist as $key => &$value) {
             $key = intval(json_encode($key));
