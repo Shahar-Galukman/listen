@@ -64,6 +64,4 @@ function onPlayerStateChange(event) {
 	}
 }
 
-
-
-init();
+$(window).one('playlist.rendered', init);

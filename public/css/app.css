@@ -104,13 +104,21 @@ body {
 					line-height: 20px;
 				}
 
-#add-song-container form {
+/* Add song */
 
+#add-song-container form {
+    padding-left: 0;
 }
 
-	#add-song-container form input[type="text"],
-	#add-song-container form .fi-magnifying-glass {
-		display: inline-block;
+	#add-song-container form input[type="text"] {
+		width: calc(100% - 36px);
+        margin-bottom: 0;
+	}
+
+	#add-song-container form button[type="submit"] {
+		width: 36px;
+		height: 36px;
+        outline: none;
 	}
 
 	#add-song-container form .fi-magnifying-glass {
@@ -129,3 +137,61 @@ body {
 		font-size: 2.4375rem;
 		text-align: center;
 	}
+
+.results {
+	list-style: none;
+	padding-left: 0;
+}
+
+	.results li {
+		height: 90px;
+		margin-bottom: 6px;
+		background: #fefefe;
+		box-shadow: 0 1px 1px rgba(0,0,0,0.2);
+        border: 1px solid #cacaca;
+        border-radius: 3px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: box-shadow .5s,border-color .25s ease-in-out;
+	}
+
+        .results li:hover {
+            border: 1px solid #8a8a8a;
+            box-shadow: 0 0 5px #cacaca;
+        }
+
+            .results li:hover > div img {
+                -webkit-filter: grayscale(0%);
+                -moz-filter: grayscale(0%);
+            }
+
+		.results li div div:first-child {
+			float: left;
+			width: calc(100% - 130px);
+		}
+
+        .results li div div:last-child {
+            float: right;
+            max-width: 120px;
+        }
+
+			.results li h5,
+			.results li p {
+				padding: 5px 20px;
+				margin-bottom: 0;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+			}
+
+            .results li p.description {
+                font-style: italic;
+
+            }
+		
+           .results li div img {
+               transition: all 0.3s ease-out;
+               -webkit-filter: grayscale(100%);
+               -moz-filter: grayscale(100%);
+           }
+		

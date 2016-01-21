@@ -1,13 +1,42 @@
 var Application = React.createClass({
     getInitialState: function(){
         return {
-            query: 'Search here...',
-            results: []
+            query: '',
+            results: [],
+            submitted: false
         };
     },
 
     handleQueryChange: function(event){
         this.setState({ query: event.target.value });
+    },
+
+    handleClick: function(event){
+        // TODO: regex for Youtube id
+        var $id = $(event.target).parents('li').data('id');
+
+        if ( $id.length > 0 ) {
+            $.post('inquire', {
+                id: $id
+            }, function(data) {
+                data = JSON.parse(data);
+                var duration = data.contentDetails.duration,
+                    minutes = +duration.match(/\d+/g)[0],
+                    seconds = +duration.match(/\d+/g)[1],
+                    totalInS = (minutes * 60) + seconds;
+
+                if ( minutes < 30 && ! isNaN(totalInS) ) {
+                    $.post('song/add', {
+                        id: data.id,
+                        name: data.snippet.title,
+                        duration: totalInS
+                    });
+                }
+
+            }.bind(this));
+        }
+
+        this.setState({ results: [] });
     },
 
     handleSubmit: function(event){
@@ -28,9 +57,11 @@ var Application = React.createClass({
         // TODO: separate to it's own class
         var results = this.state.results.map(function(record, index){
             return (
-                <YoutubeRecord key={index} record={record} />
+                <li key={index} data-id={record.id.videoId} onClick={this.handleClick}>
+                    <YoutubeRecord record={record} />
+                </li>
             );
-        });
+        }.bind(this));
 
         return (
             <div className="application-inner">
@@ -40,19 +71,28 @@ var Application = React.createClass({
 
                 <div className="small-12 medium-6 large-6 columns">
                     <div className="row">
-                        <div id="add-song-container" className="small-12 medium-6 large-6">
-                            <form>
-                                <input type="text" value={this.state.query} onChange={this.handleQueryChange}/>
-                                <input type="submit" onClick={this.handleSubmit} />
-                            </form>
-                            <ul className="results">
-                                {results}
-                            </ul>
+                        <div id="add-song-container" className="small-12 medium-12 large-12 columns">
+                            <div className="row">
+                                <form className="small-12 medium-12 large-12 columns">
+                                    <input type="text"
+                                           value={this.state.query}
+                                           onChange={this.handleQueryChange}
+                                           className="small-10 medium-10 large-10 columns"
+                                           placeholder="Search song..."/>
+                                    <button type="submit" disabled={this.state.submitted} onClick={this.handleSubmit} className="small-2 medium-2 large-2 columns fi-magnifying-glass">&nbsp;</button>
+                                </form>
+                            </div>
+
+                            <div className="row">
+                                <ul className="results small-12 medium-12 large-12 columns">
+                                    {results}
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
                     <div className="row">
-                        <div className="small-12 medium-6 large-6 columns">
+                        <div className="small-12 medium-12 large-12 columns text-center">
                             <div id="player"></div>
                         </div>
                     </div>
@@ -64,38 +104,19 @@ var Application = React.createClass({
 });
 
 var YoutubeRecord = React.createClass({
-    handleClick: function(event) {
-
-        // TODO: regex for Youtube id
-        if ( event.target.dataset.id.length > 0 ) {
-            $.post('inquire', {
-                id: event.target.dataset.id
-            }, function(data) {
-                data = JSON.parse(data);
-                var duration = data.contentDetails.duration,
-                    minutes = +duration.match(/\d+/g)[0],
-                    seconds = +duration.match(/\d+/g)[1],
-                    totalInS = (minutes * 60) + seconds;
-
-                if ( minutes < 30 ) {
-                    $.post('song/add', {
-                        id: data.id,
-                        name: data.snippet.title,
-                        duration: totalInS
-                    });
-                }
-
-            }.bind(this));
-        }
-    },
 
     render: function(){
         var record = this.props.record;
         return (
-            <li data-id={record.id.videoId} onClick={this.handleClick}>
-                {record.snippet.title}
-
-            </li>
+            <div>
+                <div>
+                    <h5 className="title">{record.snippet.title}</h5>
+                    <p className="description">{record.snippet.description}</p>
+                </div>
+                <div>
+                    <img src={record.snippet.thumbnails.default.url} alt={record.snippet.title}/>
+                </div>
+            </div>
         );
     }
 });
@@ -200,10 +221,14 @@ var Playlist = React.createClass({
 
           var channel = pusher.subscribe('playlist-channel');
 
-          channel.bind('song-added', function(d) {
+          channel.bind('song-added', function() {
               this.fetchFromServer();
           }.bind(this));
       }
+  },
+
+  componentDidUpdate: function() {
+      $(window).trigger('playlist.rendered')
   },
 
   render: function() {
