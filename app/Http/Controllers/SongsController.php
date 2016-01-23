@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 
 use App\Http\Requests;
 use App\Song;
+use App\Submission;
 use Carbon\Carbon;
 use Vinkla\Pusher\PusherManager;
 
@@ -28,9 +29,21 @@ class SongsController extends Controller {
      */
     public function index()
     {
-        \Auth::check() ? $user = \Auth::user() : $user = \Auth::guest();
+        $greet = '';
+        $submission = null;
 
-        return view('index')->with('user', $user);
+        if (\Auth::check()) {
+            $user = \Auth::user();
+            $greet = $this->setGreeting($user);
+            $submission = Submission::where('facebook_id', $user->facebook_id)->first();
+        } else {
+            $user = \Auth::guest();
+        }
+
+        return view('index')
+            ->with('user', $user)
+            ->with('greeting', $greet)
+            ->with('submission', $submission);
     }
 
     /**
@@ -61,7 +74,10 @@ class SongsController extends Controller {
             $row = $song->where('video_id', $videoId)->first();
             
             if ( is_null($row) ){
+                $submission = new Submission();
+                $user = \Auth::user();
                 $latestSong = new Song();
+
                 $latestSong = $latestSong->orderby('updated_at', 'desc')->first();
 
                 // Add song
@@ -83,6 +99,11 @@ class SongsController extends Controller {
                 }
 
                 $song->save();
+
+                $submission->facebook_id = $user->facebook_id;
+                $submission->playlist_id = $song->video_id;
+
+                $submission->save();
 
                 // Publish song added
                 $this->pusher->trigger('playlist-channel', 'song-added', []);
@@ -182,5 +203,16 @@ class SongsController extends Controller {
         if ( isset($request->id) ){
             $this->pusher->trigger('playlist-channel', 'track-changed', ['id' => $request->id]);
         }
+    }
+
+    private function setGreeting($user) {
+        if ( $user->new ) {
+            $user->new = false;
+            $user->save();
+
+            return "Welcome";
+        }
+
+        return "Welcome back";
     }
 }

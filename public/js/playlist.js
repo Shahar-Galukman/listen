@@ -1,4 +1,4 @@
-var Application = React.createClass({
+var SubmitSongForm = React.createClass({
     getInitialState: function(){
         return {
             query: '',
@@ -9,6 +9,12 @@ var Application = React.createClass({
 
     handleQueryChange: function(event){
         this.setState({ query: event.target.value });
+    },
+
+    resetCollection: function(event) {
+        event.preventDefault();
+        this.setState({ results: [] });
+        this.setState({ query: '' });
     },
 
     handleClick: function(event){
@@ -36,7 +42,7 @@ var Application = React.createClass({
             }.bind(this));
         }
 
-        this.setState({ results: [] });
+        this.resetCollection(event);
     },
 
     handleSubmit: function(event){
@@ -64,46 +70,30 @@ var Application = React.createClass({
         }.bind(this));
 
         return (
-            <div className="application-inner">
-                <div className="small-12 medium-12 large-6 columns">
-                    <div className="row">
-                        <div className="small-12 medium-12 large-12 columns nopadding">
-                            <div id="player"></div>
-                        </div>
-                    </div>
-
-                    <div className="row">
-                        <div id="add-song-container" className="small-12 medium-12 large-12 columns">
-                            <div className="row">
-                                <form className="small-12 medium-12 large-12 columns">
-                                    <input type="text"
-                                           value={this.state.query}
-                                           onChange={this.handleQueryChange}
-                                           className="small-10 medium-10 large-10 columns"
-                                           placeholder="Search song..."/>
-                                    <button type="submit"
-                                            disabled={this.state.submitted}
-                                            onClick={this.handleSubmit}
-                                            className="small-2 medium-2 large-2 columns fi-magnifying-glass label">&nbsp;</button>
-                                </form>
-                            </div>
-
-                            <div className="row">
-                                <ul className="results small-12 medium-12 large-12 columns">
-                                    {results}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+            <div id="add-song-container" className="small-12 medium-12 large-12 columns">
+                <div className="row">
+                    <form className="small-12 medium-12 large-12 columns">
+                        <input type="text"
+                               value={this.state.query}
+                               onChange={this.handleQueryChange}
+                               className="small-10 medium-10 large-10 columns"
+                               placeholder="Search song..."/>
+                        <div className="close-button" onClick={this.resetCollection}>&times;</div>
+                        <button type="submit"
+                                disabled={this.state.submitted}
+                                onClick={this.handleSubmit}
+                                className="small-2 medium-2 large-2 columns fi-magnifying-glass">&nbsp;</button>
+                    </form>
                 </div>
 
-                <div id="playlist-container" className="small-12 medium-12 large-4 columns nopadding">
-                    <Playlist source="playlist" />
+                <div className="row">
+                    <ul className="results small-12 medium-12 large-12 columns">
+                        {results}
+                    </ul>
                 </div>
             </div>
         );
     }
-
 });
 
 var YoutubeRecord = React.createClass({
@@ -143,16 +133,17 @@ var Song = React.createClass({
         var playingClass = 'item small-12 medium-12 large-12 columns',
             state;
 
-        if ( this.state.song.playing === 0 ) {
-            playingClass += ' playing';
-            state = 'present';
-        }
-
-
-        if ( this.state.song.playing === -1 ) {
-            state = 'future';
-        } else {
-            state = 'past';
+        switch (this.state.song.playing) {
+            case 0:
+                playingClass += ' playing';
+                state = 'present';
+                break;
+            case 1:
+                state = 'past';
+                break;
+            case -1 :
+                state = 'future';
+                break;
         }
 
         return (
@@ -242,7 +233,7 @@ var Playlist = React.createClass({
         });
 
 		return (
-            <ul className="playlist" >
+            <ul className="playlist small-12 medium-12 large-12 columns" >
                 {playlist}
             </ul>
 		);
@@ -250,6 +241,13 @@ var Playlist = React.createClass({
 });
 
 ReactDOM.render(
-  <Application />,
-  document.getElementById('application')
+    <Playlist source="playlist" />,
+    document.getElementById('playlist-container')
 );
+
+if ( $('#add-song-wrapper').length > 0 ) {
+    ReactDOM.render(
+        <SubmitSongForm />,
+        document.getElementById('add-song-wrapper')
+    );
+}

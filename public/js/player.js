@@ -15,7 +15,8 @@ var player,
 			var $current = $('.playing'),
 				$next = $current.next();
 
-			$current.attr('data-state', 'past').removeClass('playing');
+			$current.removeClass('playing');
+			$current.children('.song-meta').attr('data-state', 'past');
 			$next.addClass('playing');
 			$next.children('.song-meta').attr('data-state', 'present');
 			playlist.loadSong();

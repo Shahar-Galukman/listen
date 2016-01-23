@@ -27,6 +27,11 @@
 	font-size: 50px;
 }
 
+.blur {
+	filter: url(../img/blur.svg#blur) blur(3px);
+	-webkit-filter: blur(3px);
+}
+
 /* General */
 
 html, body, h1, h2, h3, h4, h5, h6 {
@@ -34,52 +39,109 @@ html, body, h1, h2, h3, h4, h5, h6 {
 }
 
 body {
-	background: url(../img/shattered.png);
-	overflow: hidden;
+	background: url(../img/backgrounds/shattered.png);
+	/*overflow: hidden;*/
 }
 
 /* Header */
 .header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: calc(100% - 480px);
+	max-height: 42px;
+	background-color: #2E3233;
+	z-index: 100;
+}
 
+	.header .app-name {
+		margin-right: 4px;
+	}
+
+		.header .app-name h4 {
+			text-transform: uppercase;
+			color: #CAF200;
+			line-height: 42px;
+		}
+
+	.header .user-avatar {
+		max-height: 42px;
+		overflow: hidden;
+	}
+
+		.header .user-avatar img {
+			max-width: 62px;
+		}
+
+	.header .user-name,
+	.header .welcome,
+	.header .call-to-vote{
+		line-height: 42px;
+		color: #FFFEFC;
+	}
+
+	.header .user-name,
+	.header .welcome {
+		margin-left: 10px;
+	}
+
+	.header .call-to-vote {
+		color: #CAF200;
+		margin-left: 5px;
+	}
+	
+		.header .call-to-vote:hover {
+			text-decoration: underline;
+		}
+
+	.header .fb-login {
+		background: url(../img/login/login-short.png) no-repeat;
+		background-size: 62px 28px;
+		background-position-y: 8px;
+		width: 62px;
+		height: 42px;
+		margin-left: 5px;
+	}
+
+.content {
+	position: relative;
+}
+
+#player {
+	position: fixed;
+	z-index: 100;
+	top: 0;
+	right: 0;
+	border: 3px solid #2E3233;
 }
 
 /* Playlist */
 #playlist-container {
+	max-width: 495px;
+	float: right;
+	margin-top: 270px;
 }
 
 	.playlist {
 		display: block;
 		min-width: 320px;
-		height: 100vh;
+		padding-right: 0;
 		list-style: none;
-		overflow-y: visible;
-		overflow-x: hidden;
 	}
 
 		.playlist .item {
 			position: relative;
 			min-width: 320px;
 			padding: 5px;
-			margin-bottom: 5px;
 			background-color: #fefefe;
 			box-shadow: 0 1px 1px rgba(0,0,0,0.2);
 			cursor: pointer;
 			transition: all 0.3s;
 			float: none;
+			border: 3px solid #2E3233;
+			border-top-width: 0px;
+			border-bottom-width: 1px;
 		}
-
-			/*.playlist .item:before {*/
-				/*content: "\f1a4";*/
-				/*position: absolute;*/
-				/*font-family: "foundation-icons";*/
-				/*top: 0px;*/
-				/*left: 20px;*/
-				/*font-size: 35px;*/
-			/*}*/
-
-			/*.playlist .item:not(.playing):hover {
-				background-color: rgba(52, 73, 94, 0.8);
-			}*/
 
 			/* song states */
 			.playlist .item.playing,
@@ -92,12 +154,6 @@ body {
 				color: rgba(46, 204, 113, 1);
 			}
 
-			/*song meta*/
-			/*.playlist .item > *,
-			.playlist .item .song-meta > * {
-				display: inline-block;
-			}*/
-
 				.song-meta {
 					padding-top: 10px;
 					font-size: 20px;
@@ -105,12 +161,21 @@ body {
 				}
 
 /* Add song */
+#add-song-wrapper {
+	display: none;
+	min-height: 350px;
+	min-width: 495px;
+	position: fixed;
+	top: 45px;
+	left: 46px;
+}
 
 #add-song-container.large-12 {
     max-width: 495px;
 }
 
 #add-song-container form {
+	position: relative;
     padding-left: 0;
 }
 
@@ -134,7 +199,7 @@ body {
 
 	#add-song-container form .fi-magnifying-glass:before {
         position: absolute;
-        top: 2px;
+        top: 3px;
         left: -1px;
         width: 2.4375rem;
         height: 2.4375rem;
@@ -142,8 +207,14 @@ body {
         text-align: center;
 	}
 
+	#add-song-container form .close-button {
+		position: absolute;
+		top: 0;
+		right: 55px;
+	}
+
 .results {
-    max-width: calc(100% - 50px);
+    max-width: calc(100% - 14px);
 	list-style: none;
 	padding-left: 0;
 	padding-right: 0;
@@ -159,7 +230,7 @@ body {
         border-radius: 3px;
         overflow: hidden;
         cursor: pointer;
-        transition: box-shadow .5s,border-color .25s ease-in-out;
+        transition: box-shadow .5s, border-color .25s ease-in-out;
 	}
 
         .results li:hover {

@@ -18,7 +18,6 @@ class CreatePlaylist extends Migration
             $table->string('video_name');
             $table->string('video_id');
             $table->string('video_duration');
-            $table->string('video_image');
 
             // Song Meta data
             $table->string('title')->nullable();
