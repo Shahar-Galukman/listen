@@ -22,7 +22,7 @@
                     <div class="float-left user-avatar">
                         <img src="{{ $user->avatar  }}" alt="{{ $user->name  }}">
                     </div>
-                    <p class="float-left user-name">{{ $greeting }}, {{ explode(' ', $user->name)[0]  }}. </p>
+                    <p class="float-left user-name">{{ $greeting }} {{ explode(' ', $user->name)[0]  }}. </p>
 
                     @if ( is_null($submission) )
                         <a class="float-left call-to-vote">Make your choice!</a>

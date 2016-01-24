@@ -36,8 +36,8 @@ return [
     ],
 
     'facebook' => [
-        'client_id' => '1036365009758435',
-        'client_secret' => '07ce01f108f9d15ba126dff18d9338cb',
+        'client_id' => env('FACEBOOK_CLIENT_ID'),
+        'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
         'redirect' => 'http://www.shahargalukman.com/auth/facebook/callback',
     ],
 ];

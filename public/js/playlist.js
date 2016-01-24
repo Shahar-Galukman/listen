@@ -18,7 +18,6 @@ var SubmitSongForm = React.createClass({
     },
 
     handleClick: function(event){
-        // TODO: regex for Youtube id
         var $id = $(event.target).parents('li').data('id');
 
         if ( $id.length > 0 ) {
@@ -36,6 +35,8 @@ var SubmitSongForm = React.createClass({
                         id: data.id,
                         name: data.snippet.title,
                         duration: totalInS
+                    }).success(function(){
+                        $(window).trigger('song.added')
                     });
                 }
 
@@ -250,4 +251,8 @@ if ( $('#add-song-wrapper').length > 0 ) {
         <SubmitSongForm />,
         document.getElementById('add-song-wrapper')
     );
+
+    $(window).one('song.added', function(){
+        ReactDOM.unmountComponentAtNode(document.getElementById("add-song-wrapper"));
+    });
 }
