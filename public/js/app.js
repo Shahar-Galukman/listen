@@ -7,7 +7,7 @@ $.ajaxSetup({
 });
 
 $('.call-to-vote').on('click', function(){
-    $('#add-song-wrapper').fadeIn('fast');
+    $('#add-song-wrapper').toggle('fast');
 
     $(window).one('song.added', function(){
         $('.call-to-vote').fadeOut('fast');

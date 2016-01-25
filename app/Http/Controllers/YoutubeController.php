@@ -26,7 +26,7 @@ class YoutubeController extends Controller {
                 'q' => $request->input('query'),
                 'part' => 'snippet',
                 'type' => 'video',
-                'maxResults' => 3,
+                'maxResults' => 5,
                 'videoEmbeddable' => 'true',
                 'videoSyndicated' => 'true',
                 'videoCategoryId' => '10' // Music category id

@@ -146,8 +146,8 @@ body {
 			/* song states */
 			.playlist .item.playing,
 			.playlist .item:hover {
-				color: #fefefe;
-				background-color: rgba(44, 62, 80, 0.9);
+				color: #CAF200;
+				background-color: #2E3233;
 			}
 
 			.playlist .item.playing:before {
@@ -163,11 +163,11 @@ body {
 /* Add song */
 #add-song-wrapper {
 	display: none;
-	min-height: 350px;
 	min-width: 495px;
 	position: fixed;
-	top: 45px;
-	left: 46px;
+	top: 42px;
+	left: 62px;
+	background-color: #2E3233;
 }
 
 #add-song-container.large-12 {
@@ -176,7 +176,6 @@ body {
 
 #add-song-container form {
 	position: relative;
-    padding-left: 0;
 }
 
 	#add-song-container form input[type="text"] {
@@ -195,17 +194,18 @@ body {
 		width: 2.4375rem;
 		height: 2.4375rem;
 		cursor: pointer;
+		color: #fefefe;
 	}
 
-	#add-song-container form .fi-magnifying-glass:before {
-        position: absolute;
-        top: 3px;
-        left: -1px;
-        width: 2.4375rem;
-        height: 2.4375rem;
-        font-size: 2rem;
-        text-align: center;
-	}
+		#add-song-container form .fi-magnifying-glass:before {
+			position: absolute;
+			top: 3px;
+			left: -1px;
+			width: 2.4375rem;
+			height: 2.4375rem;
+			font-size: 2rem;
+			text-align: center;
+		}
 
 	#add-song-container form .close-button {
 		position: absolute;
@@ -214,10 +214,7 @@ body {
 	}
 
 .results {
-    max-width: calc(100% - 14px);
 	list-style: none;
-	padding-left: 0;
-	padding-right: 0;
     margin-top: 6px;
 }
 
@@ -230,12 +227,12 @@ body {
         border-radius: 3px;
         overflow: hidden;
         cursor: pointer;
-        transition: box-shadow .5s, border-color .25s ease-in-out;
+        /*transition: box-shadow .5s, border-color .25s ease-in-out;*/
 	}
 
         .results li:hover {
             border: 1px solid #8a8a8a;
-            box-shadow: 0 0 5px #cacaca;
+            box-shadow: 0 0 2px #CAF200;
         }
 
             .results li:hover > div img {
@@ -272,4 +269,9 @@ body {
                -webkit-filter: grayscale(100%);
                -moz-filter: grayscale(100%);
            }
-		
+
+
+	#add-song-container form,
+	#add-song-container .results {
+		padding: 0;
+	}
