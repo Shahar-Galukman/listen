@@ -36,4 +36,24 @@ class Song extends Model
         'track_number',
         'year',
     ];
+
+    /**
+     * Change date format due to Firefox javascript Date.parse issue
+     * @param $date
+     * @return string
+     */
+    public function getCreatedAtAttribute($date)
+    {
+        return str_replace('-', '/', $date);
+    }
+
+    /**
+     * Change date format due to Firefox javascript Date.parse issue
+     * @param $date
+     * @return string
+     */
+    public function getUpdatedAtAttribute($date)
+    {
+        return str_replace('-', '/', $date);
+    }
 }

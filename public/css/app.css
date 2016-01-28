@@ -27,9 +27,10 @@
 	font-size: 50px;
 }
 
-.blur {
-	filter: url(../img/blur.svg#blur) blur(3px);
-	-webkit-filter: blur(3px);
+.loader {
+	width: 36px;
+	height: 36px;
+	background: url(../img/loader-white.gif) no-repeat;
 }
 
 /* General */
@@ -184,6 +185,9 @@ body {
 	}
 
 	#add-song-container form button[type="submit"] {
+		position: relative;
+		top: 3px;
+		left: 5px;
 		width: 36px;
 		height: 36px;
         outline: none;
@@ -199,8 +203,8 @@ body {
 
 		#add-song-container form .fi-magnifying-glass:before {
 			position: absolute;
-			top: 3px;
-			left: -1px;
+			top: 0;
+			left: 0;
 			width: 2.4375rem;
 			height: 2.4375rem;
 			font-size: 2rem;

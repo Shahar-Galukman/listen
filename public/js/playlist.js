@@ -48,14 +48,18 @@ var SubmitSongForm = React.createClass({
 
     handleSubmit: function(event){
         event.preventDefault();
+        var $submitButton = $('#add-song-container form .fi-magnifying-glass');
 
         if ( this.state.query.length > 0 ) {
+            $submitButton.removeClass('fi-magnifying-glass').addClass('loader');
             $.post('search', {
                 query: this.state.query
             }, function(data) {
                 if ( data != false ) {
                     this.setState({ results: JSON.parse(data) });
                 }
+
+                $submitButton.removeClass('loader').addClass('fi-magnifying-glass');
             }.bind(this));
         }
     },
