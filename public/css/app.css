@@ -50,7 +50,7 @@ body {
 	top: 0;
 	left: 0;
 	width: calc(100% - 480px);
-	max-height: 42px;
+	max-height: 100px;
 	background-color: #2E3233;
 	z-index: 100;
 }
@@ -59,14 +59,14 @@ body {
 		margin-right: 4px;
 	}
 
-		.header .app-name h4 {
+		.header .app-name h1 {
 			text-transform: uppercase;
 			color: #CAF200;
-			line-height: 42px;
+			line-height: 100px;
 		}
 
 	.header .user-avatar {
-		max-height: 42px;
+		max-height: 100px;
 		overflow: hidden;
 	}
 
@@ -74,21 +74,27 @@ body {
 			max-width: 62px;
 		}
 
-	.header .user-name,
-	.header .welcome,
-	.header .call-to-vote{
-		line-height: 42px;
-		color: #FFFEFC;
+	.header .user-wrap {
+		margin-top: 20px;
 	}
 
 	.header .user-name,
+	.header .welcome,
+	.header .call-to-vote{
+		color: #FFFEFC;
+		font-size: 1.25em;
+	}
+
 	.header .welcome {
-		margin-left: 10px;
+		line-height: 100px;
+	}
+
+	.header .user-name {
+		margin-bottom: 0;
 	}
 
 	.header .call-to-vote {
 		color: #CAF200;
-		margin-left: 5px;
 	}
 	
 		.header .call-to-vote:hover {
@@ -97,11 +103,9 @@ body {
 
 	.header .fb-login {
 		background: url(../img/login/login-short.png) no-repeat;
-		background-size: 62px 28px;
-		background-position-y: 8px;
-		width: 62px;
-		height: 42px;
-		margin-left: 5px;
+		width: 100px;
+		height: 60px;
+		margin: 28px 0 0 15px;
 	}
 
 .content {
@@ -113,7 +117,6 @@ body {
 	z-index: 100;
 	top: 0;
 	right: 0;
-	border: 3px solid #2E3233;
 }
 
 /* Playlist */
@@ -133,15 +136,12 @@ body {
 		.playlist .item {
 			position: relative;
 			min-width: 480px;
-			padding: 5px;
 			background-color: #fefefe;
 			box-shadow: 0 1px 1px rgba(0,0,0,0.2);
 			cursor: pointer;
 			transition: all 0.3s;
 			float: none;
-			border: 3px solid #2E3233;
-			border-top-width: 0px;
-			border-bottom-width: 1px;
+			border-bottom: 1px solid #2E3233;
 		}
 
 			/* song states */
@@ -166,8 +166,9 @@ body {
 	display: none;
 	min-width: 495px;
 	position: fixed;
-	top: 42px;
-	left: 62px;
+	top: 100px;
+	left: 0;
+	z-index: 101;
 	background-color: #2E3233;
 }
 

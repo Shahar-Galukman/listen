@@ -23,4 +23,8 @@ class Submission extends Model
         'facebook_id',
         'playlist_id'
     ];
+
+    public function Submission(){
+        return $this->belongsTo('User', 'facebook_id');
+    }
 }
