@@ -38,6 +38,6 @@ return [
     'facebook' => [
         'client_id' => env('FACEBOOK_CLIENT_ID'),
         'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
-        'redirect' => 'http://dev.listen.com/auth/facebook/callback',
+        'redirect' => 'http://www.just-listen.com/auth/facebook/callback',
     ],
 ];
