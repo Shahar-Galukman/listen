@@ -5,10 +5,10 @@
             {{--<img src="{{ $user->avatar  }}" alt="{{ $user->name  }}">--}}
             {{--</div>--}}
             <div class="float-left user-wrap">
-                <p class="user-name">{{ $greeting }} {{ explode(' ', $user->name)[0]  }}. </p>
+                <p class="user-name">{{ $greeting }} {{ explode(' ', $user->name)[0]  }} </p>
 
                 {{--@if ( is_null($submission) )--}}
-                    <a class="call-to-vote">Make your choice!</a>
+                    <a class="call-to-vote"> - What should we listen to?</a>
                 {{--@endif--}}
             </div>
 

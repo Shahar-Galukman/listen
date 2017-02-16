@@ -91,6 +91,7 @@ body {
 
 	.header .user-name {
 		margin-bottom: 0;
+		display: inline-block;
 	}
 
 	.header .call-to-vote {
