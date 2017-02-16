@@ -12,7 +12,9 @@ use Carbon\Carbon;
 use Vinkla\Pusher\PusherManager;
 
 class SongsController extends Controller {
-    
+
+    const MY_FACEBOOK_ID = '10153842682654513';
+
     /**
     * @var PusherManager
     */
@@ -35,7 +37,7 @@ class SongsController extends Controller {
         if (\Auth::check()) {
             $user = \Auth::user();
             $greet = $this->setGreeting($user);
-            $submission = Submission::where('facebook_id', $user->facebook_id)->first();
+            $submission = Submission::where('facebook_id', $user->facebook_id)->first() != self::MY_FACEBOOK_ID;
         } else {
             $user = \Auth::guest();
         }
