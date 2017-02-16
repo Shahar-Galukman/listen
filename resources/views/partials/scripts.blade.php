@@ -1,4 +1,6 @@
 <script src="js/vendor/jquery.js"></script>
+<script src="js/vendor/react-0.14.3.js"></script>
+<script src="js/vendor/react-dom-0.14.3.js"></script>
 <script src="js/vendor/browser.min.js"></script>
 <script src="js/vendor/foundation.min.js"></script>
 <script src="js/vendor/what-input.min.js"></script>
