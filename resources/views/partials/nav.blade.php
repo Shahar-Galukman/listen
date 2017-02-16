@@ -7,9 +7,9 @@
             <div class="float-left user-wrap">
                 <p class="user-name">{{ $greeting }} {{ explode(' ', $user->name)[0]  }}. </p>
 
-                @if ( is_null($submission) )
+                {{--@if ( is_null($submission) )--}}
                     <a class="call-to-vote">Make your choice!</a>
-                @endif
+                {{--@endif--}}
             </div>
 
         @else
