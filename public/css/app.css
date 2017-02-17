@@ -44,6 +44,10 @@ body {
 	/*overflow: hidden;*/
 }
 
+a {
+	text-decoration: none;
+}
+
 /* Header */
 .header {
 	position: fixed;
@@ -62,7 +66,6 @@ body {
 		.header .app-name h1 {
 			text-transform: uppercase;
 			color: #CAF200;
-			line-height: 100px;
 		}
 
 	.header .user-avatar {
